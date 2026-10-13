@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Slayed Hair &amp; Esthetics: hair, colour, nails, brows, lashes, skin and holistic care. Explore services, meet the specialists and book online.">
-<link rel="icon" type="image/png" href="cd186de1eefa18b80e3d2b8e55471661.png">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#080808">
 <title>Slayed Hair &amp; Esthetics — Hair, nails, brows &amp; lashes</title>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="tokens.css">
@@ -401,7 +406,7 @@ main .sl-cta .sl-sh-title{white-space:normal}
 </div>
 
 <!-- 07 · Footer -->
-<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="[YOUR STUDIO ADDRESS]" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="[YOUR PHONE]" style="width: 100%; position: sticky; bottom: 0px; z-index: 0"></x-import>
+<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="88 Mirror Lane, Halifax, NS B3H 0A0" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="(902) 555-0147" style="width: 100%; position: sticky; bottom: 0px; z-index: 0"></x-import>
 </div>
 
 
@@ -945,12 +950,12 @@ class Component extends DCLogic {
       contactIntro: 'Questions, colour corrections or bridal bookings?\nSend us a message and we\u2019ll get back to you.',
       contactDetails: [
         { label: 'Email', value: 'workforyuliia@gmail.com', href: 'mailto:workforyuliia@gmail.com' },
-        { label: 'Phone', value: '[YOUR PHONE]' }
+        { label: 'Phone', value: '(902) 555-0147', href: 'tel:+19025550147' }
       ],
       hours: [
-        { text: 'Mon [10:00 am - 5:00 pm]', note: 'Esthetic services only' },
-        'Tue\u2013Sat [9:00 am - 7:00 pm]',
-        'Sun [Closed]'
+        { text: 'Mon 10:00 am \u2013 5:00 pm', note: 'Esthetic services only' },
+        'Tue\u2013Sat 9:00 am \u2013 7:00 pm',
+        'Sun Closed'
       ]
     };
   }

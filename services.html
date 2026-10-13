@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Every service at Slayed Hair &amp; Esthetics — hair, nails, brows &amp; lashes, skin &amp; waxing and holistic care — with prices, timings and online booking.">
-<link rel="icon" type="image/png" href="cd186de1eefa18b80e3d2b8e55471661.png">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#080808">
 <title>Services — Slayed Hair &amp; Esthetics</title>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="tokens.css">
@@ -399,7 +404,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 </section>
 </div>
 <!-- 05 · Footer -->
-<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="[YOUR STUDIO ADDRESS]" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="[YOUR PHONE]" style="width: 100%; display: block; position: sticky; bottom: 0px; z-index: 0"></x-import>
+<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="88 Mirror Lane, Halifax, NS B3H 0A0" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="(902) 555-0147" style="width: 100%; display: block; position: sticky; bottom: 0px; z-index: 0"></x-import>
 </div>
 
 
@@ -429,7 +434,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4280}}'>
 class Component extends DCLogic {
   // ── Catalogue. Keys match the booking pop-up's price lists (a key shared by two specialists,
-  // like "gel", lets the visitor choose between them). Prices are placeholders.
+  // like "gel", lets the visitor choose between them). Prices are sample prices (CAD).
   catalogue() {
     const P = {
       kennedy: { name: 'Kennedy', photo: 'fb87bdefd7fa39f0ea3b4873188bd5b0.webp' },
@@ -440,45 +445,45 @@ class Component extends DCLogic {
     return [
       { id: 'hair', name: 'Hair', title: 'Hair services', desc: 'Cuts, colour and finishing, from a fresh shape to a full transformation.', pros: [P.kennedy],
         items: [
-          { key: 'cut', name: 'Haircut & style', min: 60, desc: 'A cut built around your face shape and texture, finished with a style.' },
-          { key: 'blow', name: 'Blowout', min: 45, desc: 'Wash, blow dry and style for smooth, bouncy hair that lasts.' },
-          { key: 'root', name: 'Root touch-up', min: 90, desc: 'Colour on new growth only, matched to your existing shade.' },
-          { key: 'full', name: 'Full colour', min: 120, desc: 'Root-to-tip colour for a rich, even, lasting result.' },
-          { key: 'bal', name: 'Balayage / highlights', min: 180, desc: 'Hand-painted or foiled lightness with soft, lived-in grow-out.' },
+          { key: 'cut', name: 'Haircut & style', min: 60, cost: 65, desc: 'A cut built around your face shape and texture, finished with a style.' },
+          { key: 'blow', name: 'Blowout', min: 45, cost: 45, desc: 'Wash, blow dry and style for smooth, bouncy hair that lasts.' },
+          { key: 'root', name: 'Root touch-up', min: 90, cost: 95, desc: 'Colour on new growth only, matched to your existing shade.' },
+          { key: 'full', name: 'Full colour', min: 120, cost: 130, desc: 'Root-to-tip colour for a rich, even, lasting result.' },
+          { key: 'bal', name: 'Balayage / highlights', min: 180, cost: 220, desc: 'Hand-painted or foiled lightness with soft, lived-in grow-out.' },
           { key: 'corr', name: 'Colour correction', min: 30, desc: 'Start with a consultation; we plan the steps to the colour you want.', price: 'Free consult' },
-          { key: 'gloss', name: 'Gloss & treatment', min: 45, desc: 'Shine, tone and repair between colour appointments.' }
+          { key: 'gloss', name: 'Gloss & treatment', min: 45, cost: 55, desc: 'Shine, tone and repair between colour appointments.' }
         ] },
       { id: 'nails', name: 'Nails', title: 'Nail services', desc: 'Gel, builder gel and hand-painted art that stays put.', pros: [P.toni, P.amanda],
         items: [
-          { key: 'gel', name: 'Gel manicure', min: 60, desc: 'Shaping, cuticle care and a high-shine gel finish.' },
-          { key: 'ped', name: 'Gel pedicure', min: 75, desc: 'Soak, scrub, shaping and long-wear gel on toes.' },
-          { key: 'set', name: 'Builder gel full set', min: 120, desc: 'Strong, natural-looking length and shape with builder gel.' },
-          { key: 'nfill', name: 'Fill', min: 90, desc: 'Rebalance and refresh your set as it grows.' },
-          { key: 'art', name: 'Nail art, per set', min: 30, desc: 'Chrome, crystals, French or freehand designs.' },
-          { key: 'rem', name: 'Removal', min: 30, desc: 'Gentle removal that keeps your natural nails healthy.' }
+          { key: 'gel', name: 'Gel manicure', min: 60, cost: 50, desc: 'Shaping, cuticle care and a high-shine gel finish.' },
+          { key: 'ped', name: 'Gel pedicure', min: 75, cost: 65, desc: 'Soak, scrub, shaping and long-wear gel on toes.' },
+          { key: 'set', name: 'Builder gel full set', min: 120, cost: 85, desc: 'Strong, natural-looking length and shape with builder gel.' },
+          { key: 'nfill', name: 'Fill', min: 90, cost: 65, desc: 'Rebalance and refresh your set as it grows.' },
+          { key: 'art', name: 'Nail art, per set', min: 30, cost: 15, desc: 'Chrome, crystals, French or freehand designs.' },
+          { key: 'rem', name: 'Removal', min: 30, cost: 20, desc: 'Gentle removal that keeps your natural nails healthy.' }
         ] },
       { id: 'brows', name: 'Brows & lashes', title: 'Brows & lashes', desc: 'Shape, lift and volume that frame your face.', pros: [P.amanda],
         items: [
-          { key: 'brow', name: 'Brow shape & tint', min: 30, desc: 'Mapped, shaped and tinted to suit your features.' },
-          { key: 'lam', name: 'Brow lamination', min: 45, desc: 'Brushed-up, fuller-looking brows that hold for weeks.' },
-          { key: 'lift', name: 'Lash lift & tint', min: 60, desc: 'Your own lashes, lifted and darkened. No extensions needed.' },
-          { key: 'ext', name: 'Lash extensions, full set', min: 120, desc: 'Classic to full volume, mapped to your eye shape.' },
-          { key: 'lfill', name: 'Lash fill', min: 60, desc: 'Top up your extensions every two to three weeks.' }
+          { key: 'brow', name: 'Brow shape & tint', min: 30, cost: 35, desc: 'Mapped, shaped and tinted to suit your features.' },
+          { key: 'lam', name: 'Brow lamination', min: 45, cost: 65, desc: 'Brushed-up, fuller-looking brows that hold for weeks.' },
+          { key: 'lift', name: 'Lash lift & tint', min: 60, cost: 85, desc: 'Your own lashes, lifted and darkened. No extensions needed.' },
+          { key: 'ext', name: 'Lash extensions, full set', min: 120, cost: 160, desc: 'Classic to full volume, mapped to your eye shape.' },
+          { key: 'lfill', name: 'Lash fill', min: 60, cost: 70, desc: 'Top up your extensions every two to three weeks.' }
         ] },
       { id: 'skin', name: 'Skin & waxing', title: 'Skin & waxing', desc: 'Facials for glow and calm, plus quick, clean waxing.', pros: [P.amanda],
         items: [
-          { key: 'fac', name: 'Signature facial', min: 60, desc: 'Deep cleanse, exfoliation, mask and massage, tailored to your skin.' },
-          { key: 'exp', name: 'Express facial', min: 30, desc: 'A quick refresh for brighter, smoother skin.' },
-          { key: 'uwax', name: 'Underarm wax', min: 15, desc: 'Smooth results that last for weeks.' },
-          { key: 'lwax', name: 'Full leg wax', min: 45, desc: 'Ankle to upper thigh, finished with a soothing balm.' }
+          { key: 'fac', name: 'Signature facial', min: 60, cost: 110, desc: 'Deep cleanse, exfoliation, mask and massage, tailored to your skin.' },
+          { key: 'exp', name: 'Express facial', min: 30, cost: 65, desc: 'A quick refresh for brighter, smoother skin.' },
+          { key: 'uwax', name: 'Underarm wax', min: 15, cost: 20, desc: 'Smooth results that last for weeks.' },
+          { key: 'lwax', name: 'Full leg wax', min: 45, cost: 65, desc: 'Ankle to upper thigh, finished with a soothing balm.' }
         ] },
       { id: 'holistic', name: 'Holistic', title: 'Holistic care', desc: 'Acupuncture, cupping, gua sha and candling to reset body and mind.', pros: [P.tonya],
         items: [
-          { key: 'acu1', name: 'Acupuncture, first visit', min: 90, desc: 'Consultation and treatment plan, then your first session.' },
-          { key: 'acu', name: 'Acupuncture, follow-up', min: 60, desc: 'Ongoing sessions to keep you on track.' },
-          { key: 'cup', name: 'Cupping', min: 45, desc: 'Releases tension and boosts circulation.' },
-          { key: 'gua', name: 'Gua sha facial', min: 45, desc: 'Sculpting facial massage that lifts and de-puffs.' },
-          { key: 'can', name: 'Ear candling', min: 30, desc: 'A calming, warming ritual for the ears and mind.' }
+          { key: 'acu1', name: 'Acupuncture, first visit', min: 90, cost: 110, desc: 'Consultation and treatment plan, then your first session.' },
+          { key: 'acu', name: 'Acupuncture, follow-up', min: 60, cost: 85, desc: 'Ongoing sessions to keep you on track.' },
+          { key: 'cup', name: 'Cupping', min: 45, cost: 60, desc: 'Releases tension and boosts circulation.' },
+          { key: 'gua', name: 'Gua sha facial', min: 45, cost: 75, desc: 'Sculpting facial massage that lifts and de-puffs.' },
+          { key: 'can', name: 'Ear candling', min: 30, cost: 40, desc: 'A calming, warming ritual for the ears and mind.' }
         ] }
     ];
   }
@@ -726,7 +731,7 @@ class Component extends DCLogic {
           mediaCls: 'sv-media ' + (i % 2 ? 'sv-bottom' : 'sv-top'),   // bands alternate like the homepage cards
           cardCls: 'sv-card',
           with: pros.join(' or '),
-          price: s.price || (pros.length > 1 ? 'From $[00]*' : 'From $[00]'),
+          price: s.price || ('From $' + s.cost),
           aria: 'Select ' + s.name + ', ' + this.fmtDur(s.min) + ', with ' + pros.join(' or '),
           select: () => this.openBooking(s.key),
           enter: () => { if ((this.state || {}).hov !== i) this.setState({ hov: i }); }
