@@ -1,0 +1,125 @@
+/* SLAYED — generated from tokens.json */
+:root, [data-theme="light"] {
+  --white: #ffffff; /* Pure white. Light page and card surfaces; text on `black`, `true-black` and `red` (5.5:1 on red). */
+  --black: #080808; /* Near-black, the primary dark color. Body and heading text on `white`, `gray-100` and `gray-200`; dark sections, nav bar and footer ground. */
+  --true-black: #000000; /* Absolute black. Deepest grounds only — photo overlays and full-bleed dark bands; use `black` for text. */
+  --red: #d40002; /* Brand red. Primary buttons, service cards, CTA bands, duotone photo overlays and the logo slash. Text on red is `white` (5.5:1). As text itself, red passes on `white` (5.5:1) and `gray-100` (4.6:1); on `black` only at 24px+ (3.6:1). */
+  --red-deep: #5c000a; /* Deep red. Service description text on `red`, at 50% opacity as in the Figma service card (reads as #980106, 1.6:1 on red — decorative, below the 4.5:1 guideline); 2.6:1 at full opacity. From the service card CSS, not the Figma color styles. */
+  --gray-500: #525252; /* Mid-gray. Secondary text and microcopy on `white`, `gray-100` and `gray-200` (≥5.5:1); secondary button fill with `white` text. Fails as text on `black` (2.6:1) — use `gray-200` or `white` there. */
+  --gray-200: #d9d9d9; /* Light gray. Dividers, disabled fills, muted text on `black` (14:1). */
+  --gray-100: #eaeae6; /* Off-white / warm gray. The homepage section ground behind photos and cards; `black` text on it (16.6:1). */
+}
+:root {
+  --Margins: 64px; /* This spacing is for every section */
+  --Padding_1: 9px; /* For service cards */
+  --Padding_2: 16px; /* For gallery preview cards */
+  --Padding_3: 24px; /* For Team cards */
+  --radius-none: 0px; /* Photo cards, service cards, team cards, bands — everything but controls is square. */
+  --radius-pill: 100px; /* Buttons, chips, before/after tags, round icon buttons. */
+  --font-display: Nomine, Impact, "Arial Narrow", sans-serif;
+  --font-sans: Manrope, system-ui, sans-serif;
+  --font-logo: Unbounded, "Arial Black", sans-serif;
+  --text-Heading-XXL: 400 220px/180px var(--font-display); /* Nomine XXL, uppercase. The giant wordmark-scale line — footer and hero statements only. */
+  --text-Heading-XL: 400 80px/72px var(--font-display); /* Nomine XL. Hero headline and section titles (“What are we slaying today?”). Text case as typed — set section titles in caps. */
+  --text-Heading-L-Medium: 500 24px/24px var(--font-sans); /* Manrope Medium 24, uppercase. Card titles and sub-headings. */
+  --text-Heading-M: 500 16px/24px var(--font-sans); /* Manrope Medium 16, uppercase. Small headings, service names. */
+  --text-Heading-S: 600 14px/18px var(--font-sans); /* Manrope SemiBold 14, uppercase. Eyebrows above section titles. */
+  --text-Heading-XS: 500 12px/14px var(--font-sans); /* Manrope Medium 12, uppercase. Smallest heading, for tiny caps labels. */
+  --text-Body-L: 500 18px/28px var(--font-sans); /* Manrope Medium 18. Intro paragraphs and hero supporting copy. */
+  --text-Body-M-Medium: 500 16px/24px var(--font-sans); /* Manrope Medium 16. Default body copy. */
+  --text-Body-S: 500 14px/18px var(--font-sans); /* Manrope Medium 14. Card body, contact details, footer text. */
+  --text-Button: 600 14px/18px var(--font-sans); /* Manrope SemiBold 14, uppercase — the Figma text style, used by the header button. The primary and secondary buttons and card links use Manrope Medium 14, +0.02em, caps, as in their component CSS. */
+  --text-Label: 500 16px/24px var(--font-sans); /* Manrope Medium 16, uppercase. Nav links, tags, marquee items. */
+  --text-Microcopy: 500 12px/14px var(--font-sans); /* Manrope Medium 12, uppercase. Captions, slider labels, legal lines. */
+}
+.Heading-XXL {
+  font-family: var(--font-display);
+  font-size: 220px;
+  line-height: 180px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.Heading-XL {
+  font-family: var(--font-display);
+  font-size: 80px;
+  line-height: 72px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.Heading-L-Medium {
+  font-family: var(--font-sans);
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Heading-M {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Heading-S {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.Heading-XS {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Body-L {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Body-M-Medium {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Body-S {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Button {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.Label {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.Microcopy {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+@font-face {
+  font-family: "Nomine";
+  src: url("Nomine-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

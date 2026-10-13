@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Every service at Slayed Hair &amp; Esthetics — hair, nails, brows &amp; lashes, skin &amp; waxing and holistic care — with prices, timings and online booking.">
+<link rel="icon" type="image/png" href="cd186de1eefa18b80e3d2b8e55471661.png">
+<title>Services — Slayed Hair &amp; Esthetics</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<script src="bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;family=Unbounded:wght@700&amp;display=swap">
+<style>
+/* Services page — SLAYED tokens only. Structure: nav · title hero with a numbered category index ·
+   sticky category bar · one category at a time as an editorial product grid · black "who to book" band · footer. */
+body{margin:0;background:var(--white)}
+html,body{overflow-x:clip}
+:root:root{--Margins:64px}
+.sv{font-family:var(--font-sans);color:var(--black);background:var(--white)}
+::selection{background:var(--red);color:var(--white)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.07;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* nav */
+/* navbar: no background, light mode, laid straight over the gray-100 hero */
+.sv-top{position:absolute;top:0;left:0;right:0;z-index:20;background:transparent}
+.sv-top .sl-nav-links a:nth-child(2){color:var(--red)}
+/* the photos and copy start under the see-through navbar (66px desktop, 60px tablet/phone) */
+.sv-hero .sv-ph-main,.sv-hero .sv-ph-l,.sv-hero .sv-ph-r,.sv-hero .sv-hero-copy{top:90px}
+@media (max-width:1199px){.sv-hero .sv-ph-main,.sv-hero .sv-ph-l,.sv-hero .sv-ph-r,.sv-hero .sv-hero-copy{top:76px}}
+/* phone: the copy starts at the top of the photo (it is taller than the photo box, so centring pushed the eyebrow up onto the grey) */
+@media (max-width:767px){
+  .sv-hero .sv-hero-copy{justify-content:center;padding:24px 20px}
+  .sv-hero .sv-hero-title{font-size:clamp(48px,17vw,76px)}
+  .sv-hero .sv-hero-sub{margin:20px 0 28px;max-width:300px;font-size:15px;line-height:22px}
+}
+
+/* ── services listing (Kit-style collection: title with count, text filters with counts,
+   a gridded catalogue where the category's own intro is one of the tiles) ── */
+.sv-cat{padding:0 var(--Margins) 100px;scroll-margin-top:0;position:relative;z-index:1;background:var(--white)}
+/* ── starting screen (Squarespace-style): one big photo with the headline, neighbours peeking at the
+   sides and below. It stays put while the service cards slide up over it; on scroll the photos shrink. ── */
+.sv-stack{position:relative}
+.sv-hero{position:sticky;top:0;z-index:0;height:max(760px,min(100svh,1000px));overflow:hidden;background:var(--gray-100)}
+.sv-ph{position:absolute;overflow:hidden;background:#1a1a1a;will-change:transform}
+.sv-ph img,.sv-ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+.sv-hero .sv-ph video{filter:none}
+@media (prefers-reduced-motion:reduce){.sv-ph video{display:none}.sv-ph-main{background:#1a1a1a url(c7e930d49203f6a11566ba0251e78a2a.jpg) center/cover}}
+.sv-ph-main{left:10.4%;right:10.4%;top:24px;bottom:120px;transform-origin:50% 40%}
+.sv-ph-main::after{content:"";position:absolute;inset:0;background:rgba(8,8,8,.5)}
+.sv-ph-l{left:0;width:calc(10.4% - 24px);top:24px;bottom:120px}
+.sv-ph-r{right:0;width:calc(10.4% - 24px);top:24px;bottom:120px}
+.sv-ph-l2{left:10.4%;width:calc(39.6% - 12px);bottom:-60%;height:calc(60% + 96px)}
+.sv-ph-r2{right:10.4%;width:calc(39.6% - 12px);bottom:-60%;height:calc(60% + 96px)}
+.sv-ph-l::after,.sv-ph-r::after,.sv-ph-l2::after,.sv-ph-r2::after{content:"";position:absolute;inset:0;background:rgba(8,8,8,.35)}
+.sv-hero-copy{position:absolute;left:10.4%;right:10.4%;top:24px;bottom:120px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--white);padding:0 64px}
+.sv-eyebrow{margin:0 0 20px;font:var(--text-Heading-S);text-transform:uppercase;color:var(--gray-200)}
+.sv-hero-title{margin:0;font:400 clamp(96px,9.7vw,140px)/.86 var(--font-display);text-transform:uppercase}
+.sv-hero-sub{margin:28px 0 36px;max-width:520px;font:var(--text-Body-L);color:var(--gray-200)}
+/* the service cards slide up over the hero */
+.sv-cat{box-shadow:0 -40px 80px rgba(8,8,8,.35);background:var(--white)}
+.sv-h1{margin:0;font:var(--text-Heading-XL);font-size:clamp(56px,5.56vw,80px);line-height:.9;text-transform:uppercase;display:flex;align-items:flex-start;gap:8px}
+.sv-h1 sup{font:var(--text-Heading-S);color:var(--red);margin-top:4px}
+.sv-filter{position:sticky;top:0;z-index:15;display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0 calc(-1 * var(--Margins));padding:0 var(--Margins);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--black);border-bottom:1px solid var(--gray-200)}
+.sv-filter ul{display:flex;gap:32px;margin:0;padding:0;list-style:none;overflow-x:auto;scrollbar-width:none}
+.sv-filter ul::-webkit-scrollbar{display:none}
+.sv-f{all:unset;box-sizing:border-box;cursor:pointer;flex:none;white-space:nowrap;display:inline-flex;align-items:flex-start;gap:4px;padding:18px 0 16px;font:var(--text-Button);text-transform:uppercase;color:var(--gray-500);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .25s,border-color .25s}
+.sv-f sup{font:var(--text-Microcopy);line-height:10px}
+.sv-f:hover{color:var(--black)}
+.sv-f:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.sv-f-on{color:var(--black);border-bottom-color:var(--red)}
+.sv-f-on sup{color:var(--red)}
+.sv-note{flex:none;font:var(--text-Body-S);color:var(--gray-500);margin:0}
+
+/* catalogue grid: hairline-ruled tiles */
+.sv-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:40px;border-top:1px solid var(--gray-200);border-left:1px solid var(--gray-200)}
+.sv-grid>*{border-right:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200);min-width:0}
+
+/* service card */
+.sv-card{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:14px;padding:16px 16px 20px;background:var(--white)}
+.sv-card:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.sv-media{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--gray-100);color:var(--white)}
+/* card photos are monochrome, like the homepage's side photos */
+.sv-media img{position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;scale:1.15;filter:grayscale(1);transition:scale .6s cubic-bezier(.16,1,.3,1)}
+/* homepage service-card hover: by default only the photo shows; on hover the red band grows over it and reveals the details */
+.sv-band{position:absolute;left:0;width:100%;height:0;background:var(--red);z-index:2;transition:height .15s cubic-bezier(0,0,.58,1)}
+.sv-top .sv-band{top:0}.sv-bottom .sv-band{bottom:0}
+.sv-label{display:none;position:absolute;right:24px;left:24px;z-index:3;text-align:right;font:500 16px/24px var(--font-sans);text-transform:uppercase;transition:opacity .15s ease-out}
+/* default state: the service name sits in the bottom-left corner, 24px from both edges, straight on the photo; it fades out as the red band and details come in */
+.sv-media .sv-label{display:block;top:auto;left:24px;right:24px;bottom:24px;text-align:left;font:500 24px/24px var(--font-sans);text-transform:uppercase}
+/* darkened zone under the name: a soft black gradient up from the bottom edge so white text reads on any photo; the red hover band covers it */
+.sv-media::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;z-index:1;pointer-events:none;background:linear-gradient(to top,rgb(8 8 8 / .72) 0%,rgb(8 8 8 / .45) 35%,rgb(8 8 8 / 0) 100%)}
+.sv-detail{position:absolute;inset:0;z-index:3;padding:24px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:8px;opacity:0;transition:opacity .15s ease-out}
+.sv-dtitle{font:500 24px/24px var(--font-sans);text-transform:uppercase}
+.sv-ddesc{font:400 14px/140% var(--font-sans);color:var(--red-deep);opacity:.5}
+.sv-detail dl{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+.sv-detail dt{font:var(--text-Microcopy);text-transform:uppercase;padding-top:2px;opacity:.7}
+.sv-detail dd{margin:0;font:var(--text-Body-S)}
+.sv-cta{position:absolute;right:24px;bottom:24px;z-index:3;display:flex;align-items:center;gap:4px;font:500 12px/14px var(--font-sans);letter-spacing:-.01em;text-transform:uppercase;opacity:0;transition:opacity .15s ease-out}
+.sv-card:hover .sv-band,.sv-card:focus-visible .sv-band{height:100%}
+.sv-card:hover .sv-label,.sv-card:focus-visible .sv-label{opacity:0}
+.sv-card:hover .sv-detail,.sv-card:focus-visible .sv-detail,.sv-card:hover .sv-cta,.sv-card:focus-visible .sv-cta{opacity:1}
+.sv-card:hover .sv-media img,.sv-card:focus-visible .sv-media img{scale:1}
+.sv-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.sv-price{flex:none;font:var(--text-Body-M-Medium)}
+.sv-sub{margin:0;font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500)}
+
+/* ── who to book band ── */
+/* ── who to book: editorial block after the "Edit effortlessly" reference ──
+   depth 0  white ground
+   depth 2  the red block, set behind "who to", cut into the letters and bleeding above/below the line (drifts on scroll)
+   depth 4  the giant Nomine line, the eyebrow tucked against the block's top-right corner, centred copy and buttons
+   depth 5  a text-cursor + black name tag that follows the pointer and cycles through the specialists */
+.sv-who{position:relative;overflow:clip;background:var(--gray-100);color:var(--black);padding:140px var(--Margins) 100px;text-align:center}
+.sv-who-stage{position:relative;max-width:1312px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.sv-who-h{position:relative;isolation:isolate;margin:0;font:400 clamp(64px,9.1vw,131px)/.86 var(--font-display);text-transform:uppercase;letter-spacing:0;white-space:normal;text-wrap:balance}
+.sv-who-hl{position:relative;white-space:nowrap;display:inline-block}
+.sv-who-w{display:inline-block}
+/* the site's angled red panel (same cut as the hero and contact panels) set behind "who to" */
+.sv-who-box{position:absolute;z-index:-1;left:-.08em;right:-.14em;top:-.62em;bottom:-.5em}
+.sv-who-box::before{content:"";position:absolute;inset:0;background:var(--red);clip-path:polygon(0 31.56%,95.52% 0,100% 100%,16% 100%)}
+.sv-who-ebx{position:absolute;left:calc(100% + .1em);top:-.3em}
+/* phone-only copy of the eyebrow, above the headline */
+.sv-who-eyebrow-m{display:none;margin:0 0 56px;font:500 12px/14px var(--font-sans);text-transform:uppercase;color:var(--gray-500)}
+/* eyebrow in the site's eyebrow style, tucked against the panel's top-right corner */
+.sv-who-eyebrow{position:absolute;left:0;top:0;font:500 12px/14px var(--font-sans);letter-spacing:0;text-transform:uppercase;white-space:nowrap;color:var(--gray-500)}
+.sv-who-copy{margin:80px auto 0;max-width:560px;font:var(--text-Body-L);color:var(--black);text-wrap:balance}
+.sv-who-actions{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;margin-top:40px}
+/* pointer accent: a black pill tag naming a specialist */
+.sv-who-tag{position:absolute;left:0;top:0;z-index:5;pointer-events:none;will-change:transform}
+.sv-who-chip{display:block;padding:8px 16px;border-radius:var(--radius-pill);background:var(--black);color:var(--white);font:var(--text-Button);text-transform:uppercase;white-space:nowrap;rotate:-4deg}
+
+/* ── footer ── */
+
+/* ── motion (epic-design, in the homepage's language) ── */
+@media (prefers-reduced-motion:no-preference){
+  @keyframes sv-rise{from{opacity:0;translate:0 60px}to{opacity:1;translate:0 0}}
+  @keyframes sv-unmask{from{clip-path:inset(100% -20% -40% -20%);opacity:0}to{clip-path:inset(-40% -20% -40% -20%);opacity:1}}
+  @keyframes sv-curtain{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+  /* opening: the title unmasks, the filter row follows */
+  .sv-hero-title{animation:sv-unmask 1s cubic-bezier(.77,0,.18,1) .2s both}
+  .sv-eyebrow,.sv-hero-sub,.sv-hero-cta{animation:sv-rise .9s cubic-bezier(.2,.7,.2,1) .45s both}
+  @keyframes sv-open{from{clip-path:inset(12% 12% 12% 12%);scale:1.08}to{clip-path:inset(0 0 0 0);scale:1}}
+  .sv-ph{animation:sv-open 1.2s cubic-bezier(.16,1,.3,1) both}
+  .sv-ph-l,.sv-ph-r{animation-delay:.12s}.sv-ph-l2,.sv-ph-r2{animation-delay:.2s}
+  /* switching category: the intro tile wipes open, then the cards rise one after another */
+  .sv-card{animation:sv-rise .7s cubic-bezier(.2,.7,.2,1) both}
+  .sv-card:nth-child(2){animation-delay:.08s}.sv-card:nth-child(3){animation-delay:.16s}.sv-card:nth-child(4){animation-delay:.24s}.sv-card:nth-child(5){animation-delay:.32s}.sv-card:nth-child(6){animation-delay:.4s}.sv-card:nth-child(7){animation-delay:.48s}.sv-card:nth-child(8){animation-delay:.56s}
+  @supports (animation-timeline:view()){
+    @keyframes sv-in{from{opacity:0;translate:0 90px}to{opacity:1;translate:0 0}}
+    @keyframes sv-drift{from{translate:0 -6%}to{translate:0 6%}}
+    @keyframes sv-wipe{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+    /* who to book: the red block wipes in from the left and drifts, words rise one after another, the rest follows */
+    @keyframes sv-box{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+    @keyframes sv-boxdrift{from{translate:0 18%}to{translate:0 -18%}}
+    @keyframes sv-word{from{opacity:0;translate:0 .5em;clip-path:inset(-20% -10% 100% -10%)}to{opacity:1;translate:0 0;clip-path:inset(-20% -10% -20% -10%)}}
+    .sv-who-box{animation:sv-box linear both,sv-boxdrift linear both;animation-timeline:view(),view();animation-range:entry 30% cover 42%,cover 0% cover 100%}
+    .sv-who-w{animation:sv-word linear both;animation-timeline:view();animation-range:entry 10% cover 28%}
+    .sv-who-w2{animation-range:entry 16% cover 31%}.sv-who-w3{animation-range:entry 22% cover 34%}.sv-who-w4{animation-range:entry 28% cover 37%}.sv-who-w5{animation-range:entry 34% cover 40%}.sv-who-w6{animation-range:entry 40% cover 43%}
+    .sv-who-eyebrow,.sv-who-copy,.sv-who-actions{animation:sv-in linear both;animation-timeline:view();animation-range:entry 20% cover 35%}
+  }
+}
+
+/* ── burger menu (tablet + phone) ── */
+.mnav-burger{display:none;position:absolute;top:12px;right:var(--Margins);z-index:8;width:36px;height:36px;margin-right:-6px;padding:0;border:0;background:none;cursor:pointer;flex-direction:column;justify-content:center;gap:7px;align-items:flex-end}
+.mnav-burger span,.mnav-close span{display:block;width:24px;height:1px;background:var(--black);margin-right:6px}
+.mnav{position:fixed;inset:0;z-index:150;pointer-events:none}
+.mnav-backdrop{position:absolute;inset:0;background:rgba(8,8,8,.6);opacity:0;transition:opacity .35s ease}
+.mnav-panel{position:absolute;top:0;right:0;bottom:0;width:min(86vw,380px);max-height:100svh;box-sizing:border-box;background:var(--white);padding:12px var(--Margins) 32px;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .45s cubic-bezier(.16,1,.3,1);overflow:hidden}
+.mnav-panel::after{content:"";position:absolute;right:-70px;bottom:-30px;width:260px;height:240px;background:var(--red);clip-path:polygon(0 31%,95% 0,100% 100%,16% 100%);pointer-events:none}
+.mnav-open{pointer-events:auto}.mnav-open .mnav-backdrop{opacity:1}.mnav-open .mnav-panel{transform:none}
+.mnav-close{position:relative;align-self:flex-end;width:36px;height:36px;margin-right:-6px;padding:0;border:0;background:none;cursor:pointer}
+.mnav-close span{position:absolute;top:50%;right:0}.mnav-close span:first-child{transform:rotate(45deg)}.mnav-close span:last-child{transform:rotate(-45deg)}
+.mnav-links{display:flex;flex-direction:column;gap:4px;margin:40px 0 32px}
+.mnav-links a{font:400 48px/48px var(--font-display);text-transform:uppercase;color:var(--black);text-decoration:none;padding:4px 0}
+.mnav-links a:hover,.mnav-links a[aria-current]{color:var(--red)}
+.mnav-meta{margin-top:auto;position:relative;z-index:1;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.mnav-meta p{margin:0;font:var(--text-Body-S);color:var(--gray-500)}
+
+/* ── tablet ── */
+@media (max-width:1199px){
+  :root:root{--Margins:40px}
+  .sv-top .sl-nav{padding:12px var(--Margins);min-height:60px}
+  .sv-top .sl-nav-links,.sv-top .sl-nav-cta{display:none}
+  .sv-top .sl-nav-logo{flex:1;justify-content:center}
+  .sv-top .sl-nav-logo img{height:20px;width:auto}
+  .mnav-burger{display:flex}
+  .sv-who{padding:120px var(--Margins) 100px}
+  .sv-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* category tabs get the whole first row of the sticky bar (scrollable sideways); the note drops below */
+  .sv-filter{flex-direction:column;align-items:stretch;gap:0}
+  .sv-filter ul{flex:none;width:100%;min-width:0}
+  .sv-note{flex:none;padding:0 0 12px;font-size:12px;line-height:16px}
+  .sv-grid{margin-top:24px}
+}
+@media (min-width:1200px){.mnav,.mnav-burger{display:none!important}}
+@media (max-width:1023px){.sv-who-ebx{display:none}.sv-who-eyebrow-m{display:block}}
+
+/* ── phone ── */
+@media (max-width:767px){
+  /* hero = one phone screen under the header (previews pass their screen height as --phone-h) */
+  .sv-hero{height:max(560px,var(--phone-h,100svh))}
+  :root:root{--Margins:20px}
+  .sv-cat{padding:48px var(--Margins) 64px}
+  .sv-filter ul{gap:24px;padding-right:40px;box-sizing:border-box;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent)}
+  /* card text scaled for two-up phone cards */
+  .sv-media .sv-label{left:12px;right:12px;bottom:12px;font:500 16px/18px var(--font-sans);hyphens:auto;overflow-wrap:break-word}
+  .sv-detail{padding:12px;gap:6px}
+  .sv-dtitle{font:500 16px/18px var(--font-sans);overflow-wrap:break-word;hyphens:auto}
+  .sv-ddesc{font-size:12px;line-height:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .sv-detail dl{margin-top:4px;gap:2px 8px}
+  .sv-detail dt{font-size:10px;line-height:12px}
+  .sv-detail dd{font-size:12px;line-height:16px}
+  .sv-cta{right:12px;bottom:12px;font-size:10px;line-height:12px}
+  .sv-sub{font-size:11px;line-height:14px}
+  .sv-price{font-size:14px;line-height:20px}
+  .sv-grid{margin-left:calc(-1 * var(--Margins));margin-right:calc(-1 * var(--Margins));border-left:0}
+  .sv-tile{padding:24px var(--Margins);min-height:300px}
+  .sv-tile::after{width:200px;height:170px}
+  .sv-tile-stroke{width:80px;right:20px;top:20px}
+  .sv-card{padding:12px 12px 16px}
+  .sv-row{flex-direction:column;gap:2px}
+  .sv-panel{display:none}
+  .sv-who{padding:96px var(--Margins) 64px}
+  .sv-who-h{font-size:clamp(52px,17vw,72px)}
+  .sv-who-ebx{display:none}
+  .sv-who-eyebrow-m{display:block}
+  .sv-who-copy{margin-top:64px}
+  .sv-who-actions{flex-direction:column;align-items:stretch;gap:16px}
+  .sv-who-actions .sl-btn{justify-content:center}
+  .sv-who-chip{padding:6px 12px;font-size:12px;line-height:14px}
+      }
+.sl-foot{overflow:clip}
+/* ── Footer (SLAYED.Footer from the design system) ──
+   ≥1440 exactly as drawn (1440×724). Narrower: the same pieces re-flow — columns spread across,
+   the rule spans the margins, the giant logo scales with the width and is still cropped by the edge. */
+@media (max-width:1439px){
+  .sl-foot.sl-foot{height:auto;padding:100px var(--Margins) 0;display:flex;flex-direction:column}
+  .sl-foot .sl-foot-cols{position:static;justify-content:space-between;gap:40px}
+  .sl-foot .sl-foot-rule{position:static;width:100%;margin:80px 0 0}
+  .sl-foot .sl-foot-mark{position:relative;height:auto;margin:35px calc(-1 * var(--Margins)) -0.3vw;line-height:0}
+  .sl-foot .sl-foot-mark img{position:static;width:95.9%;margin:0 auto}
+}
+@media (max-width:1199px){
+  .sl-foot.sl-foot{padding-top:clamp(64px,8vw,96px)}
+  .sl-foot .sl-foot-cols{flex-wrap:wrap;justify-content:flex-start;gap:48px 96px}
+  .sl-foot .sl-foot-contact{width:100%;flex-direction:row;flex-wrap:wrap;gap:40px 96px}
+  .sl-foot .sl-foot-rule{margin-top:56px}
+  .sl-foot .sl-foot-mark{margin-top:32px}
+}
+@media (max-width:767px){
+  .sl-foot .sl-foot-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px 24px}
+  .sl-foot .sl-foot-col-socials,.sl-foot .sl-foot-contact{grid-column:1/-1}
+  .sl-foot .sl-foot-contact{flex-direction:column;gap:32px}
+  .sl-foot .sl-foot-list a,.sl-foot .sl-foot-detail{font-size:16px;line-height:24px;white-space:normal;overflow-wrap:anywhere}
+  .sl-foot .sl-foot-rule{margin-top:48px}
+  .sl-foot .sl-foot-mark{margin-top:24px}
+}
+/* ── Variant B · numbered service list ──
+   depth 0  white catalogue ground · depth 2  red wipe behind the hovered row
+   depth 4  index, giant Nomine name, meta, price, arrow · depth 5  floating monochrome photo that trails the pointer */
+.svl{position:relative;margin-top:40px;border-top:1px solid var(--black)}
+.svl-row{all:unset;box-sizing:border-box;cursor:pointer;position:relative;isolation:isolate;display:grid;grid-template-columns:88px minmax(0,1fr) 280px 150px 48px;align-items:center;column-gap:24px;width:100%;padding:28px 24px 28px 0;color:var(--black)}
+.svl-row::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gray-200);transform-origin:0 50%}
+.svl-row::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--red);clip-path:inset(100% 0 0 0);transition:clip-path .5s cubic-bezier(.77,0,.18,1)}
+.svl-row:focus-visible{outline:2px solid var(--black);outline-offset:-2px}
+.svl-num{padding-left:24px;font:600 14px/18px var(--font-sans);color:var(--gray-500);transition:color .3s}
+.svl-main{display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .5s cubic-bezier(.77,0,.18,1)}
+.svl-name{font:400 clamp(44px,5vw,72px)/.9 var(--font-display);text-transform:uppercase;letter-spacing:.01em;transition:translate .5s cubic-bezier(.16,1,.3,1)}
+.svl-desc{overflow:hidden;min-height:0}
+.svl-desc>span{display:block;max-width:520px;padding-top:14px;font:var(--text-Body-M-Medium);opacity:0;translate:0 10px;transition:opacity .35s,translate .5s cubic-bezier(.16,1,.3,1)}
+.svl-meta{font:500 12px/14px var(--font-sans);text-transform:uppercase;letter-spacing:.02em;color:var(--gray-500);transition:color .3s}
+.svl-price{justify-self:end;font:var(--text-Body-M-Medium);white-space:nowrap}
+.svl-go{justify-self:end;display:grid;place-items:center;width:48px;height:48px;border-radius:var(--radius-pill);box-shadow:inset 0 0 0 1px rgb(8 8 8 / .25);transition:background .3s,box-shadow .3s,color .3s}
+.svl-go .sl-icon-arrow{width:16px;height:16px;rotate:-45deg;transition:rotate .45s cubic-bezier(.16,1,.3,1)}
+.svl-thumb{display:none}
+/* hover / keyboard focus: red wipes up, name slides in, the description opens, arrow turns to point at you */
+.svl-row:hover,.svl-row:focus-visible{color:var(--white)}
+.svl-row:hover::before,.svl-row:focus-visible::before{clip-path:inset(0 0 0 0)}
+.svl-row:hover .svl-num,.svl-row:focus-visible .svl-num,.svl-row:hover .svl-meta,.svl-row:focus-visible .svl-meta{color:var(--white)}
+.svl-row:hover .svl-main,.svl-row:focus-visible .svl-main{grid-template-rows:auto 1fr}
+.svl-row:hover .svl-name,.svl-row:focus-visible .svl-name{translate:24px 0}
+.svl-row:hover .svl-desc>span,.svl-row:focus-visible .svl-desc>span{opacity:1;translate:0 0}
+.svl-row:hover .svl-go,.svl-row:focus-visible .svl-go{background:var(--white);color:var(--black);box-shadow:none}
+.svl-row:hover .svl-go .sl-icon-arrow,.svl-row:focus-visible .svl-go .sl-icon-arrow{rotate:0deg}
+/* the floating photo (desktop pointer only) */
+.svl-pv{position:absolute;left:0;top:0;z-index:40;width:300px;aspect-ratio:3/4;pointer-events:none;opacity:0;scale:.6;transition:opacity .3s ease,scale .5s cubic-bezier(.16,1,.3,1);will-change:transform}
+.svl-pv.on{opacity:1;scale:1}
+.svl-pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);clip-path:inset(100% 0 0 0);scale:1.15;transition:clip-path .55s cubic-bezier(.77,0,.18,1),scale .8s cubic-bezier(.16,1,.3,1)}
+.svl-pimg.on{clip-path:inset(0 0 0 0);scale:1;z-index:1}
+@media (hover:none),(pointer:coarse){.svl-pv{display:none}}
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    @keyframes svl-line{from{scale:0 1}to{scale:1 1}}
+    @keyframes svl-up{from{opacity:0;translate:0 40px}to{opacity:1;translate:0 0}}
+    .svl-row::after{animation:svl-line linear both;animation-timeline:view();animation-range:entry 0% cover 25%}
+    .svl-name,.svl-num,.svl-meta,.svl-price,.svl-go{animation:svl-up linear both;animation-timeline:view();animation-range:entry 0% cover 22%}
+  }
+}
+@media (max-width:1199px){
+  .svl-row{grid-template-columns:64px minmax(0,1fr) 130px 40px;padding:24px 16px 24px 0}
+  .svl-meta{grid-column:2;grid-row:2;padding-top:10px}
+  .svl-num{padding-left:16px}
+  .svl-go{width:40px;height:40px}
+}
+@media (max-width:767px){
+  .svl{margin-top:24px}
+  .svl-row{grid-template-columns:40px minmax(0,1fr) 72px;column-gap:12px;row-gap:6px;padding:16px 0}
+  .svl-num{grid-column:1;grid-row:1;padding-left:0;align-self:start;padding-top:4px}
+  .svl-main{grid-column:2;grid-row:1}
+  .svl-name{font-size:30px;line-height:.95}
+  .svl-meta{grid-column:2;grid-row:2;padding-top:0;font-size:11px}
+  .svl-price{grid-column:2;grid-row:3;justify-self:start;font-size:14px;line-height:20px}
+  .svl-go{display:none}
+  .svl-thumb{display:block;grid-column:3;grid-row:1 / span 3;width:72px;height:96px;object-fit:cover;filter:grayscale(1)}
+  .svl-row:hover .svl-name{translate:none}
+}
+@media (prefers-reduced-motion:reduce){.mnav-panel,.mnav-backdrop{transition:none}}
+/* footer taller than the screen (phones, short laptops): it scrolls in normally instead of waiting sticky underneath, so its top is never hidden */
+@media (max-width:767px),(max-height:760px){.fx-tail>:last-child{position:relative!important}}
+</style>
+</helmet>
+
+<div class="sv" id="top">
+
+<!-- Nav (design-system NavBar) + phone/tablet burger -->
+<div class="sv-top">
+<x-import component-from-global-scope="SLAYED.NavBar" mode="light" logo="cd186de1eefa18b80e3d2b8e55471661.png" logo-on-dark="d2595f028840b2ab8dddc023aac4d878.png" links="{{ navLinks }}" cta="Book a visit" cta-href="#book"></x-import>
+<button type="button" class="mnav-burger" aria-label="Open menu" aria-controls="sv-menu" aria-expanded="{{ menuOpen }}" onClick="{{ openMenu }}"><span></span><span></span></button>
+</div>
+
+<div class="sv-stack">
+<!-- Starting screen -->
+<section class="sv-hero" aria-labelledby="sv-h1">
+  <div class="sv-ph sv-ph-l" aria-hidden="true"><img src="bca20903dd3c8b944e20c3cec0233e23.webp" alt=""></div>
+  <div class="sv-ph sv-ph-main" aria-hidden="true"><video autoplay="" muted="" loop="" playsinline="" preload="auto" poster="c7e930d49203f6a11566ba0251e78a2a.jpg"><source src="0bdaa68fa45bb3bde46ca73724d66035.webm" type="video/webm"><source src="2fcbcbdbed2f4830f2a2d9eb18e25311.mp4" type="video/mp4"></video></div>
+  <div class="sv-ph sv-ph-r" aria-hidden="true"><img src="ba0bc40041c42422d63b0904d55a2882.jpg" alt=""></div>
+  <div class="sv-ph sv-ph-l2" aria-hidden="true"><img src="a964aca31a452be895725dac0e75d221.webp" alt=""></div>
+  <div class="sv-ph sv-ph-r2" aria-hidden="true"><img src="ef1b5afd4f6e31e3c6a6f49c4a072cab.jpg" alt=""></div>
+  <div class="sv-hero-copy">
+    <p class="sv-eyebrow">Our services</p>
+    <h1 id="sv-h1" class="sv-hero-title" style="color: var(--white)">Your look.<br>Your rules.</h1>
+    <p class="sv-hero-sub">Hair, colour, nails, brows and lashes — all the ways we can bring your look to life. Find your service and book your next SLAY.</p>
+    <div class="sv-hero-cta"><x-import component-from-global-scope="SLAYED.Button" variant="light" href="#book">Book a visit</x-import></div>
+  </div>
+</section>
+
+<!-- Services listing -->
+<section class="sv-cat" id="catalog" aria-label="Services">
+<nav class="sv-filter" aria-label="Service categories">
+  <ul role="tablist">
+    <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+      <li role="presentation"><button type="button" role="tab" aria-selected="{{ c.on }}" aria-controls="sv-grid" class="{{ c.tabCls }}" onClick="{{ c.pick }}">{{ c.name }}<sup>{{ c.n }}</sup></button></li>
+    </sc-for>
+  </ul>
+  <p class="sv-note">{{ cat.by }} · Prices depend on the specialist you choose</p>
+</nav>
+
+<!-- Variant B: an editorial numbered list (after the ".01 Discover · .03 Secure" steps list and the project-list reference).
+     Each service is one wide row; hovering wipes the row red, opens its short description and lets a monochrome photo
+     float after the pointer. On phones the photo sits in the row as a small thumbnail. -->
+<div class="svl" id="sv-grid" role="tabpanel" aria-label="{{ cat.title }}" onPointerMove="{{ listMove }}" onPointerLeave="{{ listLeave }}">
+  <sc-for list="{{ cards }}" as="s" hint-placeholder-count="6">
+    <button type="button" class="svl-row" aria-label="{{ s.aria }}" onClick="{{ s.select }}" onPointerEnter="{{ s.enter }}" onFocus="{{ s.enter }}">
+      <span class="svl-num">.{{ s.num }}</span>
+      <span class="svl-main"><span class="svl-name">{{ s.name }}</span><span class="svl-desc"><span>{{ s.desc }}</span></span></span>
+      <span class="svl-meta">{{ s.dur }} · {{ s.with }}</span>
+      <span class="svl-price">{{ s.price }}</span>
+      <span class="svl-go" aria-hidden="true"><span class="sl-icon-arrow"></span></span>
+      <img class="svl-thumb" src="{{ s.img }}" alt="" loading="lazy">
+    </button>
+  </sc-for>
+  <div class="{{ previewCls }}" aria-hidden="true">
+    <sc-for list="{{ previews }}" as="p" hint-placeholder-count="6"><img class="{{ p.cls }}" src="{{ p.img }}" alt="" loading="lazy"></sc-for>
+  </div>
+</div>
+</section>
+</div>
+
+<!-- 04–05 · Who to book + footer: the footer waits underneath (sticky) and the who-to-book section lifts off it, like the homepage -->
+<div class="fx-tail" style="position: relative; background: var(--black)">
+<!-- 04 · Not sure who to book with? -->
+<div class="fx-curtain" style="position: relative; z-index: 1; width: 100%; background-color: var(--gray-100)">
+<section class="sv-who" id="who" aria-labelledby="sv-who-title">
+<div class="sv-who-stage">
+  <p class="sv-who-eyebrow-m" aria-hidden="true">&amp; the right specialist for you</p>
+  <h2 id="sv-who-title" class="sv-who-h" style="font-size: 80px; line-height: 0.9; font-weight: 400; letter-spacing: 0.8px; font-style: normal; font-family: Nomine, Impact, &quot;Arial Narrow&quot;, sans-serif"><span class="sv-who-w sv-who-w1">Not</span> <span class="sv-who-w sv-who-w2">sure</span> <span class="sv-who-hl"><span class="sv-who-box" aria-hidden="true"></span><span class="sv-who-ebx" aria-hidden="true"><span class="sv-who-eyebrow">&amp; the right specialist for you</span></span><span class="sv-who-w sv-who-w3">who</span> <span class="sv-who-w sv-who-w4">to</span></span> <span class="sv-who-w sv-who-w5">book</span> <span class="sv-who-w sv-who-w6">with?</span></h2>
+  <p class="sv-who-copy">Browse our specialists and what each of them does best — hair, nails, brows and lashes, skin — then book with the right person for you.</p>
+  <div class="sv-who-actions">
+    <x-import component-from-global-scope="SLAYED.Button" variant="dark" href="index.html#team">Meet the specialists</x-import>
+    <x-import component-from-global-scope="SLAYED.Button" variant="link" href="#book">Book a visit</x-import>
+  </div>
+  <span class="sv-who-tag" aria-hidden="true"><span class="sv-who-chip">{{ whoName }}!</span></span>
+</div>
+</section>
+</div>
+<!-- 05 · Footer -->
+<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="[YOUR STUDIO ADDRESS]" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="[YOUR PHONE]" style="width: 100%; display: block; position: sticky; bottom: 0px; z-index: 0"></x-import>
+</div>
+
+
+<!-- Burger menu panel -->
+<div id="sv-menu" class="{{ menuCls }}" aria-hidden="{{ menuHidden }}">
+<div class="mnav-backdrop" onClick="{{ closeMenu }}"></div>
+<nav class="mnav-panel" aria-label="Menu">
+<button type="button" class="mnav-close" aria-label="Close menu" onClick="{{ closeMenu }}"><span></span><span></span></button>
+<div class="mnav-links">
+<a href="index.html">Home</a>
+<a href="#top" aria-current="page" onClick="{{ closeMenu }}">Services</a>
+<a href="index.html">Gallery</a>
+<a href="index.html">Our team</a>
+<a href="index.html">Contact</a>
+</div>
+<div class="mnav-meta">
+<a class="sl-btn sl-btn-dark sl-btn-md" href="#book" onClick="{{ closeMenu }}"><span class="sl-btn-fill" aria-hidden="true"></span><span class="sl-btn-label">Book a visit</span></a>
+<p>Tue–Sat 9:00 am – 7:00 pm</p>
+</div>
+</nav>
+</div>
+
+<!-- Booking pop-up (shared with the homepage); a service card opens it on that service -->
+<dc-import name="Booking" open="{{ bookingOpen }}" open-key="{{ bookingKey }}" service-key="{{ bookingService }}" on-close="{{ closeBooking }}" hint-size="0px,0px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4280}}'>
+class Component extends DCLogic {
+  // ── Catalogue. Keys match the booking pop-up's price lists (a key shared by two specialists,
+  // like "gel", lets the visitor choose between them). Prices are placeholders.
+  catalogue() {
+    const P = {
+      kennedy: { name: 'Kennedy', photo: 'fb87bdefd7fa39f0ea3b4873188bd5b0.webp' },
+      amanda: { name: 'Amanda', photo: 'cb00832dd6c34a3a7441279036b6f8f7.webp' },
+      toni: { name: 'Toni', photo: '7751023ba75beef94cb03a973d896b6c.webp' },
+      tonya: { name: 'Tonya', photo: '8d6b853f1ad0906af0c60dc75c267898.webp' }
+    };
+    return [
+      { id: 'hair', name: 'Hair', title: 'Hair services', desc: 'Cuts, colour and finishing, from a fresh shape to a full transformation.', pros: [P.kennedy],
+        items: [
+          { key: 'cut', name: 'Haircut & style', min: 60, desc: 'A cut built around your face shape and texture, finished with a style.' },
+          { key: 'blow', name: 'Blowout', min: 45, desc: 'Wash, blow dry and style for smooth, bouncy hair that lasts.' },
+          { key: 'root', name: 'Root touch-up', min: 90, desc: 'Colour on new growth only, matched to your existing shade.' },
+          { key: 'full', name: 'Full colour', min: 120, desc: 'Root-to-tip colour for a rich, even, lasting result.' },
+          { key: 'bal', name: 'Balayage / highlights', min: 180, desc: 'Hand-painted or foiled lightness with soft, lived-in grow-out.' },
+          { key: 'corr', name: 'Colour correction', min: 30, desc: 'Start with a consultation; we plan the steps to the colour you want.', price: 'Free consult' },
+          { key: 'gloss', name: 'Gloss & treatment', min: 45, desc: 'Shine, tone and repair between colour appointments.' }
+        ] },
+      { id: 'nails', name: 'Nails', title: 'Nail services', desc: 'Gel, builder gel and hand-painted art that stays put.', pros: [P.toni, P.amanda],
+        items: [
+          { key: 'gel', name: 'Gel manicure', min: 60, desc: 'Shaping, cuticle care and a high-shine gel finish.' },
+          { key: 'ped', name: 'Gel pedicure', min: 75, desc: 'Soak, scrub, shaping and long-wear gel on toes.' },
+          { key: 'set', name: 'Builder gel full set', min: 120, desc: 'Strong, natural-looking length and shape with builder gel.' },
+          { key: 'nfill', name: 'Fill', min: 90, desc: 'Rebalance and refresh your set as it grows.' },
+          { key: 'art', name: 'Nail art, per set', min: 30, desc: 'Chrome, crystals, French or freehand designs.' },
+          { key: 'rem', name: 'Removal', min: 30, desc: 'Gentle removal that keeps your natural nails healthy.' }
+        ] },
+      { id: 'brows', name: 'Brows & lashes', title: 'Brows & lashes', desc: 'Shape, lift and volume that frame your face.', pros: [P.amanda],
+        items: [
+          { key: 'brow', name: 'Brow shape & tint', min: 30, desc: 'Mapped, shaped and tinted to suit your features.' },
+          { key: 'lam', name: 'Brow lamination', min: 45, desc: 'Brushed-up, fuller-looking brows that hold for weeks.' },
+          { key: 'lift', name: 'Lash lift & tint', min: 60, desc: 'Your own lashes, lifted and darkened. No extensions needed.' },
+          { key: 'ext', name: 'Lash extensions, full set', min: 120, desc: 'Classic to full volume, mapped to your eye shape.' },
+          { key: 'lfill', name: 'Lash fill', min: 60, desc: 'Top up your extensions every two to three weeks.' }
+        ] },
+      { id: 'skin', name: 'Skin & waxing', title: 'Skin & waxing', desc: 'Facials for glow and calm, plus quick, clean waxing.', pros: [P.amanda],
+        items: [
+          { key: 'fac', name: 'Signature facial', min: 60, desc: 'Deep cleanse, exfoliation, mask and massage, tailored to your skin.' },
+          { key: 'exp', name: 'Express facial', min: 30, desc: 'A quick refresh for brighter, smoother skin.' },
+          { key: 'uwax', name: 'Underarm wax', min: 15, desc: 'Smooth results that last for weeks.' },
+          { key: 'lwax', name: 'Full leg wax', min: 45, desc: 'Ankle to upper thigh, finished with a soothing balm.' }
+        ] },
+      { id: 'holistic', name: 'Holistic', title: 'Holistic care', desc: 'Acupuncture, cupping, gua sha and candling to reset body and mind.', pros: [P.tonya],
+        items: [
+          { key: 'acu1', name: 'Acupuncture, first visit', min: 90, desc: 'Consultation and treatment plan, then your first session.' },
+          { key: 'acu', name: 'Acupuncture, follow-up', min: 60, desc: 'Ongoing sessions to keep you on track.' },
+          { key: 'cup', name: 'Cupping', min: 45, desc: 'Releases tension and boosts circulation.' },
+          { key: 'gua', name: 'Gua sha facial', min: 45, desc: 'Sculpting facial massage that lifts and de-puffs.' },
+          { key: 'can', name: 'Ear candling', min: 30, desc: 'A calming, warming ritual for the ears and mind.' }
+        ] }
+    ];
+  }
+  // photos from the design-system assets for now, one per service
+  imageFor(key) {
+    const B = '';
+    const m = {
+      // hair + nails: generated photos, one per service (bright, colourful salon style)
+      cut: '60e0cb58e759ee12f03f2739fde3f2fa.webp', blow: '2ea77bda70123b3812350d6bc48277ec.webp', root: '1110504375d885a73ed9c60add605dcd.webp',
+      full: '1a277b9797d2cc743eebc1195a7aaf44.webp', bal: '21485b798a65283c181f550e67553c2a.webp', corr: '167586dbdd315dd38cbd3e5fa75c9285.webp', gloss: '08efb9ee0e1d325fe9e38c4d211661c4.webp',
+      gel: '0251750fd40df4f72485cbf8310d4c5d.webp', ped: 'eb1ca7a31a1f29861275cdd8abb0a843.webp', set: '40a1c10bfb0de829eb00d2a9b5b4dfef.webp', nfill: '9fa0fcd97238d1572b846ebfa248cb0e.webp', art: '53bf044c52634376e9fbff8e9e57df65.webp', rem: '8aedd06b9d68b67febee76a1fb572c54.webp',
+      brow: '1b367b4f89ad248012c96ec0c868fc0b.webp', lam: 'a6fb82bdba681a719b8bc45c9d1b5483.webp', lift: '515823e4d842ed002feecad00f68344c.webp', ext: '8abf5432a2c1aaca24a0bce708c2aefe.webp', lfill: '36e520e6b1f941d8d877c4afc18d63aa.webp',
+      fac: 'd82b01f3cbb70b00862e1d4194b3e7d3.jpg', exp: 'cba1787fb8483cd5c663d5d404929fe9.webp', bwax: '12dda040025c604b9fd392c76c6fdc5b.webp', uwax: '2e1ed251687f3b4bf7f562d61c97d448.webp', lwax: '233ed23da5cae5ec5c0e8f42f56be93a.webp',
+      acu1: '71837dc50c287d300299cabb0ccc2598.webp', acu: '71837dc50c287d300299cabb0ccc2598.webp', cup: 'ebf1b8956647c58b6191c40fedbe62ee.webp', gua: '7ee897a5177ef9eeaa55e725ffec44ac.webp', can: 'a4c0bab94748279a0b8f4a2667391d35.webp'
+    };
+    return B + (m[key] || '463a5de967399506958af45fd3004380.webp');
+  }
+  // which specialists do a service (mirrors the booking pop-up)
+  prosFor(key) {
+    const map = { gel: ['Amanda', 'Toni'] };
+    return map[key] || null;
+  }
+
+  componentDidMount() {
+    // NavBar links come from the design system without targets; point them at the right pages
+    this.wireNav = () => {
+      const targets = { Home: 'index.html', Services: '#top', Gallery: 'index.html#gallery', 'Our team': 'index.html#team', Contact: 'index.html#contact' };
+      document.querySelectorAll('.sv-top .sl-nav-links a').forEach((a) => { const t = targets[a.textContent.trim()]; if (t) a.setAttribute('href', t); });
+    };
+    this.wireNav();
+    // deep links: services.html#hair / #nails / #brows / #skin / #holistic open that category
+    this.applyHash = (first) => {
+      const id = decodeURIComponent((window.location.hash || '').slice(1));
+      if (!this.catalogue().some((c) => c.id === id)) return;
+      this.setState({ cat: id, hov: null });
+      const go = () => { const el = document.getElementById('catalog'); if (el) el.scrollIntoView({ behavior: first || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); };
+      if (first) setTimeout(go, 350); else requestAnimationFrame(go);
+    };
+    this.onHash = () => this.applyHash(false);
+    window.addEventListener('hashchange', this.onHash);
+    this.applyHash(true);
+    this.initHeroScroll();
+    this.initWho();
+    this.initCurtain();
+    // every "Book" link opens the pop-up
+    this.onBook = (e) => {
+      const a = e.target.closest && e.target.closest('a[href="#book"]');
+      if (!a) return;
+      e.preventDefault();
+      this.openBooking(null);
+    };
+    document.addEventListener('click', this.onBook, true);
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state && this.state.menu) this.setState({ menu: false }); };
+    document.addEventListener('keydown', this.onKey);
+  }
+  componentDidUpdate(prev, prevState) {
+    if (this.wireNav) this.wireNav();
+    const cat = (this.state && this.state.cat) || 'hair';
+    if (cat !== this._tabShown) {
+      this._tabShown = cat;
+      const on = document.querySelector('.sv-filter .sv-f-on'), ul = on && on.closest('ul');
+      if (ul && ul.scrollWidth > ul.clientWidth) ul.scrollTo({ left: Math.max(0, on.offsetLeft - ul.offsetLeft - 20), behavior: 'smooth' });
+    }
+  }
+  loadScript(src) {
+    const cache = window.__slayedScripts || (window.__slayedScripts = {});
+    if (!cache[src]) cache[src] = new Promise((resolve, reject) => {
+      const el = document.createElement('script');
+      el.src = src; el.onload = resolve; el.onerror = reject;
+      document.head.appendChild(el);
+    });
+    return cache[src];
+  }
+  // Starting screen: while the service cards slide up over it, the photos shrink and the
+  // ── Footer reveal (same as the homepage): the footer sits sticky underneath and the who-to-book section
+  // lifts off it. The section stays full size and bright for most of the reveal so it stays readable, then
+  // sinks back slightly at the end; the footer columns drop in and the giant logo rises.
+  initCurtain() {
+    const root = document.documentElement;
+    if (root.scrollHeight - window.innerHeight < 800) return;   // design canvas: show it as designed
+    const base = 'https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/';
+    this.loadScript(base + 'gsap.min.js').then(() => this.loadScript(base + 'ScrollTrigger.min.js')).then(() => {
+      const gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
+      if (!gsap || !ScrollTrigger || this.unmounted) return;
+      gsap.registerPlugin(ScrollTrigger);
+      const curtain = document.querySelector('.fx-curtain');
+      const foot = document.querySelector('.sl-foot');
+      if (!curtain || !foot) return;
+      // a footer taller than the screen can't wait underneath (its top would never show): no reveal then, it just scrolls
+      if (foot.offsetHeight > window.innerHeight) return;
+      this.mmCurtain = gsap.matchMedia();
+      this.mmCurtain.add('(prefers-reduced-motion: no-preference)', () => {
+        const range = { trigger: curtain, start: 'bottom bottom', end: () => '+=' + foot.offsetHeight, scrub: true, invalidateOnRefresh: true };
+        gsap.set(curtain, { scale: 1, filter: 'brightness(1)', transformOrigin: '50% 100%' });
+        gsap.timeline({ scrollTrigger: range })
+          .to({}, { duration: 0.85 })
+          .fromTo(curtain, { scale: 1, filter: 'brightness(1)' }, { scale: 0.96, filter: 'brightness(0.8)', duration: 0.15, ease: 'none', immediateRender: false });
+        const top = foot.querySelector('.sl-foot-cols');
+        const mark = foot.querySelector('.sl-foot-mark');
+        if (top) gsap.fromTo(top, { yPercent: -40, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, ease: 'none', scrollTrigger: { ...range, end: () => '+=' + foot.offsetHeight * 0.7 } });
+        if (mark) gsap.fromTo(mark, { yPercent: 60 }, { yPercent: 0, ease: 'none', scrollTrigger: range });
+      });
+      ScrollTrigger.refresh();
+    }).catch(() => {});
+  }
+  // headline drifts up and fades (scrubbed to the scroll).
+  initHeroScroll() {
+    const root = document.documentElement;
+    if (root.scrollHeight - window.innerHeight < 800) return;   // design canvas: show the hero as designed
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const base = 'https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/';
+    this.loadScript(base + 'gsap.min.js').then(() => this.loadScript(base + 'ScrollTrigger.min.js')).then(() => {
+      const gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
+      if (!gsap || !ScrollTrigger || this.unmounted) return;
+      gsap.registerPlugin(ScrollTrigger);
+      const hero = document.querySelector('.sv-hero');
+      if (!hero) return;
+      setTimeout(() => {   // let the opening animation finish first
+        if (this.unmounted) return;
+        const st = { trigger: hero, start: 'top top', end: () => '+=' + hero.offsetHeight, scrub: 0.5, invalidateOnRefresh: true };
+        const tl = gsap.timeline({ scrollTrigger: st });
+        tl.to('.sv-ph-main', { scale: 0.78, ease: 'none' }, 0)
+          .to('.sv-ph-l', { scale: 0.7, xPercent: -30, ease: 'none' }, 0)
+          .to('.sv-ph-r', { scale: 0.7, xPercent: 30, ease: 'none' }, 0)
+          .to('.sv-ph-l2, .sv-ph-r2', { scale: 0.8, yPercent: -12, ease: 'none' }, 0)
+          .to('.sv-hero-copy', { yPercent: -18, autoAlpha: 0, scale: 0.92, ease: 'none' }, 0);
+        this.heroTl = tl;
+        ScrollTrigger.refresh();
+      }, 1300);
+    }).catch(() => {});
+  }
+  componentWillUnmount() {
+    this.unmounted = true;
+    window.removeEventListener('hashchange', this.onHash);
+    clearInterval(this.whoTimer); cancelAnimationFrame(this.pvRaf); this.whoRO && this.whoRO.disconnect(); cancelAnimationFrame(this.whoRaf); window.removeEventListener('resize', this.whoResize);
+    if (this.mmCurtain) this.mmCurtain.revert();
+    if (this.heroTl) { this.heroTl.scrollTrigger && this.heroTl.scrollTrigger.kill(); this.heroTl.kill(); }
+    document.removeEventListener('click', this.onBook, true);
+    document.removeEventListener('keydown', this.onKey);
+  }
+  // ── "Not sure who to book with?": the name tag rests on the red panel's corner (like the
+  // reference's EDIT! cursor) and, on a mouse, eases after the pointer; the tag cycles through the specialists.
+  initWho() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) this.whoTimer = setInterval(() => { if (!this.unmounted) this.setState({ whoIdx: ((this.state && this.state.whoIdx) || 0) + 1 }); }, 1600);
+    this.whoPos = null; this.whoGoal = null;
+    this.whoResize = () => this.whoRest(true);
+    window.addEventListener('resize', this.whoResize);
+    // fonts and the design-system buttons settle after mount: re-seat the tag whenever the block's size changes
+    const stage = document.querySelector('.sv-who-stage');
+    if (stage && window.ResizeObserver) { this.whoRO = new ResizeObserver(() => this.whoRest(true)); this.whoRO.observe(stage); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!this.unmounted) this.whoRest(true); });
+    requestAnimationFrame(() => this.whoRest(true));
+  }
+  whoRestPoint() {
+    const stage = document.querySelector('.sv-who-stage'), box = document.querySelector('.sv-who-box');
+    if (!stage || !box) return null;
+    const sr = stage.getBoundingClientRect(), br = box.getBoundingClientRect();
+    // a sticker on the red panel's lower-right corner (measured without the scroll drift)
+    const drift = parseFloat((getComputedStyle(box).translate || '').split(' ')[1]) || 0;
+    const chip = document.querySelector('.sv-who-chip'), cw = chip ? chip.offsetWidth : 100;
+    const phone = sr.width < 560;
+    return { x: Math.min(br.right - sr.left - cw * 0.45, sr.width - cw), y: br.bottom - sr.top - drift + (phone ? 10 : -22) };
+  }
+  whoRest(snap) {
+    const p = this.whoRestPoint(); if (!p) return;
+    this.whoGoal = p;
+    if (snap || !this.whoPos) { this.whoPos = { ...p }; this.whoApply(); } else this.whoTick();
+  }
+  whoTick() {
+    if (this.whoRaf) return;
+    const step = () => {
+      this.whoRaf = 0;
+      if (!this.whoPos || !this.whoGoal || this.unmounted) return;
+      this.whoPos.x += (this.whoGoal.x - this.whoPos.x) * 0.16;
+      this.whoPos.y += (this.whoGoal.y - this.whoPos.y) * 0.16;
+      this.whoApply();
+      if (Math.abs(this.whoGoal.x - this.whoPos.x) + Math.abs(this.whoGoal.y - this.whoPos.y) > 0.5) this.whoRaf = requestAnimationFrame(step);
+    };
+    this.whoRaf = requestAnimationFrame(step);
+  }
+  whoApply() {
+    const tag = document.querySelector('.sv-who-tag');
+    if (tag) tag.style.transform = 'translate3d(' + this.whoPos.x.toFixed(1) + 'px,' + this.whoPos.y.toFixed(1) + 'px,0)';
+  }
+  // Variant B: the preview photo eases after the pointer (lerp) and leans a little into the direction of travel.
+  pvFollow(e) {
+    if (e.pointerType !== 'mouse') return;
+    const list = document.querySelector('.svl'); if (!list) return;
+    const r = list.getBoundingClientRect();
+    this.pvGoal = { x: e.clientX - r.left + 32, y: e.clientY - r.top - 200 };
+    if (!this.pvPos) this.pvPos = { ...this.pvGoal, rot: 0 };
+    if (this.pvRaf) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const step = () => {
+      this.pvRaf = 0;
+      const pv = document.querySelector('.svl-pv'); if (!pv || this.unmounted) return;
+      const k = reduce ? 1 : 0.14, dx = (this.pvGoal.x - this.pvPos.x) * k;
+      this.pvPos.x += dx; this.pvPos.y += (this.pvGoal.y - this.pvPos.y) * k;
+      this.pvPos.rot += ((reduce ? 0 : Math.max(-8, Math.min(8, dx * 0.4))) - this.pvPos.rot) * 0.2;
+      pv.style.transform = 'translate3d(' + this.pvPos.x.toFixed(1) + 'px,' + this.pvPos.y.toFixed(1) + 'px,0) rotate(' + this.pvPos.rot.toFixed(2) + 'deg)';
+      if (Math.abs(this.pvGoal.x - this.pvPos.x) + Math.abs(this.pvGoal.y - this.pvPos.y) + Math.abs(this.pvPos.rot) > 0.4) this.pvRaf = requestAnimationFrame(step);
+    };
+    this.pvRaf = requestAnimationFrame(step);
+  }
+  openBooking(serviceKey) {
+    document.documentElement.style.overflow = 'hidden';
+    const st = this.state || {};
+    this.setState({ booking: true, bookingService: serviceKey || null, bookingKey: (st.bookingKey || 0) + 1, menu: false });
+  }
+  fmtDur(min) { return min < 60 ? min + ' min' : Math.floor(min / 60) + ' h' + (min % 60 ? ' ' + (min % 60) + ' min' : ''); }
+
+  renderVals() {
+    const st = this.state || {};
+    const footExplore = [{ label: 'Home', href: 'index.html' }, { label: 'Services', href: '#catalog' }, { label: 'Gallery', href: 'index.html#gallery' }, { label: 'Team', href: 'index.html#team' }, { label: 'Contact', href: 'index.html#contact' }];
+    const footServices = [['Hair', 'hair'], ['Nails', 'nails'], ['Brows & lashes', 'brows'], ['Skin & waxing', 'skin'], ['Holistic', 'holistic']].map(([label, id]) => ({ label, href: '#' + id }));
+    const cats = this.catalogue();
+    const activeId = st.cat || 'hair';
+    const cat = cats.find((c) => c.id === activeId) || cats[0];
+    const pad = (n) => String(n).padStart(2, '0');
+    const show = (id) => {
+      this.setState({ cat: id });
+      const el = document.getElementById('catalog');
+      if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    };
+    const whoNames = ['Kennedy', 'Amanda', 'Toni', 'Tonya'];
+    return {
+      footExplore, footServices,
+      whoName: whoNames[(st.whoIdx || 0) % whoNames.length],
+      navLinks: ['Home', 'Services', 'Gallery', 'Our team', 'Contact'],
+      total: pad(cats.reduce((n, c) => n + c.items.length, 0)),
+      cats: cats.map((c, i) => ({
+        id: c.id, name: c.name, num: pad(i + 1), n: pad(c.items.length),
+        on: c.id === cat.id, tabCls: 'sv-f' + (c.id === cat.id ? ' sv-f-on' : ''),
+        pick: () => { try { if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search); } catch (e) {} this.setState({ cat: c.id, hov: null }); }, jump: () => show(c.id)
+      })),
+      cat: {
+        num: pad(cats.indexOf(cat) + 1), name: cat.name, title: cat.title, n: pad(cat.items.length), desc: cat.desc, faces: cat.pros,
+        by: 'With ' + cat.pros.map((p) => p.name).join(' & ')
+      },
+      cards: cat.items.map((s, i) => {
+        const pros = this.prosFor(s.key) || cat.pros.map((p) => p.name).slice(0, 1);
+        return {
+          num: pad(i + 1), name: s.name, desc: s.desc, dur: this.fmtDur(s.min), img: this.imageFor(s.key),
+          mediaCls: 'sv-media ' + (i % 2 ? 'sv-bottom' : 'sv-top'),   // bands alternate like the homepage cards
+          cardCls: 'sv-card',
+          with: pros.join(' or '),
+          price: s.price || (pros.length > 1 ? 'From $[00]*' : 'From $[00]'),
+          aria: 'Select ' + s.name + ', ' + this.fmtDur(s.min) + ', with ' + pros.join(' or '),
+          select: () => this.openBooking(s.key),
+          enter: () => { if ((this.state || {}).hov !== i) this.setState({ hov: i }); }
+        };
+      }),
+      previews: cat.items.map((s, i) => ({ img: this.imageFor(s.key), cls: 'svl-pimg' + (i === st.hov ? ' on' : '') })),
+      previewCls: 'svl-pv' + (st.hov != null && st.hov < cat.items.length ? ' on' : ''),
+      listMove: (e) => this.pvFollow(e),
+      listLeave: () => { if ((this.state || {}).hov != null) this.setState({ hov: null }); },
+      menuOpen: !!st.menu, menuHidden: !st.menu, menuCls: 'mnav' + (st.menu ? ' mnav-open' : ''),
+      openMenu: () => { document.documentElement.style.overflow = 'hidden'; this.setState({ menu: true }); },
+      closeMenu: () => { if (!st.booking) document.documentElement.style.overflow = ''; this.setState({ menu: false }); },
+      bookingOpen: !!st.booking, bookingKey: st.bookingKey || 0, bookingService: st.bookingService || null,
+      closeBooking: () => { document.documentElement.style.overflow = ''; this.setState({ booking: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

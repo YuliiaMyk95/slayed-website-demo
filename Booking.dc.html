@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Slayed Salon — Book a visit</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="bundle.css">
+<script src="bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&amp;display=swap">
+<style>
+/* Booking pop-up — SLAYED tokens only: black / white / gray, red as the single accent,
+   Nomine display titles, Manrope UI, square panels, pill buttons. */
+.bk-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:32px;box-sizing:border-box;background:rgba(8,8,8,.72);font-family:var(--font-sans);color:var(--black)}
+.bk-panel{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 340px;width:1120px;max-width:100%;height:720px;max-height:100%;background:var(--white);overflow:hidden;box-shadow:0 40px 80px rgba(8,8,8,.35)}
+.bk-main{display:flex;flex-direction:column;min-height:0}
+.bk-head{padding:32px 40px 0;display:flex;flex-direction:column;gap:16px}
+.bk-eyebrow{margin:0;font:var(--text-Heading-S);text-transform:uppercase;color:var(--gray-500)}
+.bk-title{margin:0;font:400 56px/52px var(--font-display);text-transform:uppercase;color:var(--black)}
+.bk-steps{display:flex;gap:24px;margin:0;padding:0;list-style:none;border-bottom:1px solid var(--gray-200)}
+.bk-step{padding:0 0 12px;font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500);border-bottom:2px solid transparent;margin-bottom:-1px}
+.bk-step-on{color:var(--black);border-bottom-color:var(--red)}
+.bk-step-done{color:var(--black)}
+.bk-body{flex:1;min-height:0;overflow-y:auto;padding:28px 40px 24px}
+.bk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 40px;border-top:1px solid var(--gray-200)}
+.bk-close{position:absolute;top:24px;right:364px;z-index:2}
+/* step 1: specialists */
+.bk-pros{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.bk-pro{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;cursor:pointer}
+.bk-pro-img{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--gray-500)}
+.bk-pro-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.bk-pro-img::after{content:"";position:absolute;inset:0;background:var(--red);mix-blend-mode:multiply;opacity:0;transition:opacity .3s}
+.bk-pro:hover .bk-pro-img img{transform:scale(1.04)}
+.bk-pro:hover .bk-pro-img::after,.bk-pro-on .bk-pro-img::after{opacity:.55}
+.bk-pro:focus-visible .bk-pro-img{outline:2px solid var(--red);outline-offset:3px}
+.bk-pro-on .bk-pro-img{box-shadow:inset 0 0 0 3px var(--red)}
+.bk-pro-name{font:var(--text-Heading-L-Medium);text-transform:uppercase}
+.bk-pro-what{font:var(--text-Body-S);color:var(--gray-500);margin-top:-6px}
+.bk-pro-from{font:var(--text-Microcopy);text-transform:uppercase;color:var(--red)}
+/* step 2: price list */
+.bk-cat{margin:0 0 8px;font:var(--text-Heading-S);text-transform:uppercase;color:var(--red)}
+.bk-list{display:flex;flex-direction:column;margin:0 0 28px}
+.bk-svc{all:unset;box-sizing:border-box;display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:16px;padding:14px 16px;border-bottom:1px solid var(--gray-200);cursor:pointer;transition:background .2s}
+.bk-svc:hover{background:var(--gray-100)}
+.bk-svc:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.bk-svc-on{background:var(--black);color:var(--white)}
+.bk-svc-on:hover{background:var(--black)}
+.bk-radio{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px currentColor;box-sizing:border-box}
+.bk-svc-on .bk-radio{background:var(--red);box-shadow:inset 0 0 0 4px var(--white)}
+.bk-svc-name{font:var(--text-Heading-M);text-transform:uppercase}
+.bk-svc-dur{display:block;font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500);margin-top:2px}
+.bk-svc-on .bk-svc-dur{color:var(--gray-200)}
+.bk-svc-price{font:var(--text-Body-M-Medium)}
+/* step 3: date & time */
+.bk-days{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:24px;scrollbar-width:thin}
+.bk-day{all:unset;box-sizing:border-box;flex:none;width:72px;padding:12px 0;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:inset 0 0 0 1px var(--gray-200);cursor:pointer;transition:box-shadow .2s,background .2s}
+.bk-day:hover{box-shadow:inset 0 0 0 1px var(--black)}
+.bk-day:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.bk-day-dow{font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500)}
+.bk-day-num{font:400 32px/32px var(--font-display)}
+.bk-day-on{background:var(--black);color:var(--white);box-shadow:none}
+.bk-day-on .bk-day-dow{color:var(--gray-200)}
+.bk-day-off{opacity:.35;cursor:not-allowed}
+.bk-day-off:hover{box-shadow:inset 0 0 0 1px var(--gray-200)}
+.bk-sub{margin:0 0 12px;font:var(--text-Heading-S);text-transform:uppercase}
+.bk-times{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.bk-time{all:unset;box-sizing:border-box;text-align:center;padding:9px 0;border-radius:var(--radius-pill);box-shadow:inset 0 0 0 1px var(--black);font:var(--text-Body-S);cursor:pointer;transition:background .2s,color .2s}
+.bk-time:hover{background:var(--gray-100)}
+.bk-time:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.bk-time-on,.bk-time-on:hover{background:var(--black);color:var(--white)}
+.bk-note{margin:0;font:var(--text-Body-S);color:var(--gray-500)}
+/* step 4: details */
+.bk-form{display:grid;grid-template-columns:1fr 1fr;gap:24px 24px}
+.bk-field{display:flex;flex-direction:column;gap:6px}
+.bk-field-wide{grid-column:1 / -1}
+.bk-label{font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500)}
+.bk-input{all:unset;box-sizing:border-box;width:100%;padding:8px 0;border-bottom:1px solid var(--black);font:var(--text-Body-M-Medium);color:var(--black)}
+.bk-input:focus{border-bottom:2px solid var(--red);padding-bottom:7px}
+.bk-input::placeholder{color:var(--gray-500)}
+textarea.bk-input{min-height:72px;resize:vertical;white-space:pre-wrap}
+.bk-err{font:var(--text-Microcopy);color:var(--red);text-transform:uppercase}
+/* step 5: review */
+.bk-review{display:flex;flex-direction:column}
+.bk-rrow{display:grid;grid-template-columns:140px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--gray-200)}
+.bk-rlabel{font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500)}
+.bk-rval{font:var(--text-Body-M-Medium)}
+.bk-edit{all:unset;cursor:pointer;font:var(--text-Microcopy);text-transform:uppercase;color:var(--black);border-bottom:1px solid currentColor}
+.bk-edit:hover{color:var(--red)}
+.bk-fine{margin:20px 0 0;font:var(--text-Body-S);color:var(--gray-500)}
+/* done */
+.bk-done{height:100%;display:flex;flex-direction:column;justify-content:center;gap:20px;max-width:520px}
+.bk-done-title{margin:0;font:400 80px/72px var(--font-display);text-transform:uppercase}
+.bk-done-copy{margin:0;font:var(--text-Body-L)}
+/* summary rail */
+.bk-rail{position:relative;background:var(--black);color:var(--white);padding:32px;display:flex;flex-direction:column;gap:20px;overflow:hidden}
+.bk-rail::before{content:"";position:absolute;right:-60px;bottom:-40px;width:300px;height:260px;background:var(--red);clip-path:polygon(0 31%,95% 0,100% 100%,16% 100%);opacity:.9}
+.bk-rail>*{position:relative}
+.bk-rail-eyebrow{margin:0;font:var(--text-Heading-S);text-transform:uppercase;color:var(--gray-200)}
+.bk-rail-pro{display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px;align-items:center}
+.bk-rail-img{width:72px;height:96px;object-fit:cover;filter:grayscale(1)}
+.bk-rail-ph{width:72px;height:96px;background:var(--gray-500)}
+.bk-rail-name{font:var(--text-Heading-L-Medium);text-transform:uppercase}
+.bk-rail-row{display:flex;flex-direction:column;gap:4px;padding-top:16px;border-top:1px solid rgba(217,217,217,.25)}
+.bk-rail-label{font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-200)}
+.bk-rail-val{font:var(--text-Body-M-Medium)}
+.bk-rail-empty{color:var(--gray-500)}
+.bk-rail-total{margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;padding-top:16px;border-top:1px solid var(--white)}
+.bk-rail-total-val{font:400 40px/40px var(--font-display)}
+
+/* "Back" link: arrow points back and sits before the word */
+.bk-foot .sl-btn-link{flex-direction:row-reverse}
+.bk-foot .sl-btn-link .sl-btn-arrow{transform:scaleX(-1)}
+/* responsive: tablet narrows the rail, phone goes full-screen with the summary at the end */
+@media (max-width:1100px){
+ .bk-panel{grid-template-columns:minmax(0,1fr) 280px}
+ .bk-close{right:304px}
+ .bk-pros{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bk-times{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (max-width:767px){
+ .bk-overlay{padding:0;align-items:stretch}
+ .bk-panel{display:flex;flex-direction:column;width:100%;height:100%;max-height:none;overflow-y:auto;box-shadow:none}
+ .bk-main{flex:none;min-height:auto}
+ .bk-head{padding:20px 20px 0;gap:12px}
+ .bk-title{font-size:40px;line-height:38px;padding-right:48px}
+ .bk-steps{gap:16px;overflow-x:auto;scrollbar-width:none}
+ .bk-step{white-space:nowrap}
+ .bk-body{overflow:visible;padding:20px}
+ .bk-foot{position:sticky;bottom:0;z-index:3;background:var(--white);padding:12px 20px}
+ .bk-close{position:fixed;top:16px;right:16px;z-index:4}
+ .bk-pros{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .bk-pro-name{font-size:18px;line-height:20px}
+ .bk-svc{padding:12px;gap:12px}
+ .bk-times{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .bk-form{grid-template-columns:1fr}
+ .bk-rrow{grid-template-columns:1fr auto;gap:4px 12px}
+ .bk-rrow .bk-rlabel{grid-column:1 / -1}
+ .bk-done{padding:24px 0}
+ .bk-done-title{font-size:56px;line-height:52px}
+ .bk-rail{flex:none;padding:24px 20px 96px}
+ .bk-rail::before{width:200px;height:170px}
+}
+/* motion */
+@media (prefers-reduced-motion:no-preference){
+ @keyframes bk-fade{from{opacity:0}to{opacity:1}}
+ @keyframes bk-rise{from{opacity:0;translate:0 40px}to{opacity:1;translate:0 0}}
+ .bk-overlay{animation:bk-fade .3s ease-out both}
+ .bk-panel{animation:bk-rise .5s cubic-bezier(.16,1,.3,1) both}
+ .bk-body>*{animation:bk-rise .45s cubic-bezier(.16,1,.3,1) both}
+}
+</style>
+</helmet>
+
+<sc-if value="{{ open }}" hint-placeholder-val="{{ true }}">
+<div class="bk-overlay" role="dialog" aria-modal="true" aria-labelledby="bk-title" onClick="{{ onBackdrop }}">
+<div class="bk-panel">
+
+<div class="bk-main">
+  <div class="bk-head">
+    <p class="bk-eyebrow">Book a visit</p>
+    <h2 id="bk-title" class="bk-title">{{ title }}</h2>
+    <sc-if value="{{ showSteps }}" hint-placeholder-val="{{ true }}">
+    <ol class="bk-steps">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+        <li class="{{ s.cls }}">{{ s.label }}</li>
+      </sc-for>
+    </ol>
+    </sc-if>
+  </div>
+
+  <div class="bk-body">
+    <!-- 01 · Specialist -->
+    <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+    <div class="bk-pros">
+      <sc-for list="{{ pros }}" as="p" hint-placeholder-count="4">
+        <button type="button" class="{{ p.cls }}" aria-pressed="{{ p.on }}" onClick="{{ p.pick }}">
+          <span class="bk-pro-img"><img src="{{ p.photo }}" alt="{{ p.alt }}"></span>
+          <span class="bk-pro-name">{{ p.name }}</span>
+          <span class="bk-pro-what">{{ p.what }}</span>
+          <span class="bk-pro-from">{{ p.from }}</span>
+        </button>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <!-- 02 · Service from that specialist's own price list -->
+    <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <sc-for list="{{ menu }}" as="c" hint-placeholder-count="2">
+        <h3 class="bk-cat">{{ c.name }}</h3>
+        <div class="bk-list" role="radiogroup" aria-label="{{ c.name }}">
+          <sc-for list="{{ c.items }}" as="i" hint-placeholder-count="3">
+            <button type="button" role="radio" aria-checked="{{ i.on }}" class="{{ i.cls }}" onClick="{{ i.pick }}">
+              <span class="bk-radio" aria-hidden="true"></span>
+              <span><span class="bk-svc-name">{{ i.name }}</span><span class="bk-svc-dur">{{ i.dur }}</span></span>
+              <span class="bk-svc-price">{{ i.price }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <!-- 03 · Date & time -->
+    <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <h3 class="bk-sub">Day</h3>
+      <div class="bk-days">
+        <sc-for list="{{ days }}" as="d" hint-placeholder-count="14">
+          <button type="button" class="{{ d.cls }}" aria-pressed="{{ d.on }}" aria-disabled="{{ d.off }}" title="{{ d.why }}" onClick="{{ d.pick }}">
+            <span class="bk-day-dow">{{ d.dow }}</span>
+            <span class="bk-day-num">{{ d.num }}</span>
+            <span class="bk-day-dow">{{ d.mon }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <h3 class="bk-sub">{{ timesTitle }}</h3>
+      <sc-if value="{{ hasTimes }}" hint-placeholder-val="{{ true }}">
+      <div class="bk-times">
+        <sc-for list="{{ times }}" as="t" hint-placeholder-count="12">
+          <button type="button" class="{{ t.cls }}" aria-pressed="{{ t.on }}" onClick="{{ t.pick }}">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      </sc-if>
+      <sc-if value="{{ noTimes }}" hint-placeholder-val="{{ false }}">
+      <p class="bk-note">{{ noTimesNote }}</p>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- 04 · Details -->
+    <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+    <div class="bk-form">
+      <label class="bk-field">
+        <span class="bk-label">Name</span>
+        <input class="bk-input" type="text" autocomplete="name" placeholder="Your full name" value="{{ form.name }}" onChange="{{ setName }}">
+      </label>
+      <label class="bk-field">
+        <span class="bk-label">Phone</span>
+        <input class="bk-input" type="tel" autocomplete="tel" placeholder="(000) 000-0000" value="{{ form.phone }}" onChange="{{ setPhone }}">
+      </label>
+      <label class="bk-field bk-field-wide">
+        <span class="bk-label">Email</span>
+        <input class="bk-input" type="email" autocomplete="email" placeholder="you@email.com" value="{{ form.email }}" onChange="{{ setEmail }}">
+      </label>
+      <label class="bk-field bk-field-wide">
+        <span class="bk-label">Notes for your specialist (optional)</span>
+        <textarea class="bk-input" placeholder="Allergies, inspiration, anything we should know" value="{{ form.notes }}" onChange="{{ setNotes }}"></textarea>
+      </label>
+      <sc-if value="{{ showFormError }}" hint-placeholder-val="{{ false }}">
+      <span class="bk-err bk-field-wide">{{ formError }}</span>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- 05 · Review -->
+    <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+    <div class="bk-review">
+      <div class="bk-rrow"><span class="bk-rlabel">Specialist</span><span class="bk-rval">{{ sum.pro }}</span><button type="button" class="bk-edit" onClick="{{ go1 }}">Change</button></div>
+      <div class="bk-rrow"><span class="bk-rlabel">Service</span><span class="bk-rval">{{ sum.service }}</span><button type="button" class="bk-edit" onClick="{{ go2 }}">Change</button></div>
+      <div class="bk-rrow"><span class="bk-rlabel">When</span><span class="bk-rval">{{ sum.when }}</span><button type="button" class="bk-edit" onClick="{{ go3 }}">Change</button></div>
+      <div class="bk-rrow"><span class="bk-rlabel">Contact</span><span class="bk-rval">{{ sum.contact }}</span><button type="button" class="bk-edit" onClick="{{ go4 }}">Change</button></div>
+      <p class="bk-fine">Sending opens your email app with this request filled in. Your visit is confirmed once the studio replies.</p>
+    </div>
+    </sc-if>
+
+    <!-- Sent -->
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+    <div class="bk-done">
+      <p class="bk-eyebrow">Request ready</p>
+      <h3 class="bk-done-title">See you soon</h3>
+      <p class="bk-done-copy">Your email app opened with the booking request for {{ sum.pro }}. Hit send and we'll confirm your time by email.</p>
+      <div><x-import component-from-global-scope="SLAYED.Button" variant="dark" onClick="{{ close }}">Done</x-import></div>
+    </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showFoot }}" hint-placeholder-val="{{ true }}">
+  <div class="bk-foot">
+    <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+    <x-import component-from-global-scope="SLAYED.Button" variant="link" onClick="{{ back }}">Back</x-import>
+    </sc-if>
+    <sc-if value="{{ noBack }}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+    <x-import component-from-global-scope="SLAYED.Button" variant="dark" disabled="{{ cantNext }}" onClick="{{ next }}">{{ nextLabel }}</x-import>
+  </div>
+  </sc-if>
+</div>
+
+<!-- Summary rail -->
+<aside class="bk-rail" aria-label="Your visit">
+  <p class="bk-rail-eyebrow">Your visit</p>
+  <sc-if value="{{ hasPro }}" hint-placeholder-val="{{ false }}">
+  <div class="bk-rail-pro">
+    <img class="bk-rail-img" src="{{ rail.photo }}" alt="">
+    <div><div class="bk-rail-name">{{ rail.name }}</div><div class="bk-rail-label">{{ rail.what }}</div></div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ noPro }}" hint-placeholder-val="{{ true }}">
+  <div class="bk-rail-pro"><div class="bk-rail-ph"></div><div class="bk-rail-val bk-rail-empty">Choose a specialist</div></div>
+  </sc-if>
+  <div class="bk-rail-row"><span class="bk-rail-label">Service</span><span class="{{ rail.serviceCls }}">{{ rail.service }}</span></div>
+  <div class="bk-rail-row"><span class="bk-rail-label">Duration</span><span class="{{ rail.durCls }}">{{ rail.dur }}</span></div>
+  <div class="bk-rail-row"><span class="bk-rail-label">Date &amp; time</span><span class="{{ rail.whenCls }}">{{ rail.when }}</span></div>
+  <div class="bk-rail-total"><span class="bk-rail-label">Total</span><span class="bk-rail-total-val">{{ rail.price }}</span></div>
+</aside>
+
+<div class="bk-close"><x-import component-from-global-scope="SLAYED.IconButton" label="Close booking" onClick="{{ close }}">✕</x-import></div>
+
+</div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"open":{"editor":"boolean","default":true,"section":"Booking"},"openKey":{"editor":null},"preselect":{"editor":null},"serviceKey":{"editor":null},"onClose":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  // ── Data: every specialist has their own services and price list.
+  // Prices are placeholders until the studio fills them in; durations drive the time slots.
+  pros() {
+    return [
+      { id: 'kennedy', name: 'Kennedy', what: 'Hair', photo: 'fb87bdefd7fa39f0ea3b4873188bd5b0.webp', esthetic: false,
+        menu: [
+          { name: 'Cut & style', items: [
+            { id: 'k-cut', name: 'Haircut & style', min: 60, price: '$[00]' },
+            { id: 'k-blow', name: 'Blowout', min: 45, price: '$[00]' } ] },
+          { name: 'Colour', items: [
+            { id: 'k-root', name: 'Root touch-up', min: 90, price: '$[00]' },
+            { id: 'k-full', name: 'Full colour', min: 120, price: '$[00]' },
+            { id: 'k-bal', name: 'Balayage / highlights', min: 180, price: '$[00]' },
+            { id: 'k-corr', name: 'Colour correction consult', min: 30, price: 'Free' } ] },
+          { name: 'Treatments', items: [
+            { id: 'k-gloss', name: 'Gloss & treatment', min: 45, price: '$[00]' } ] } ] },
+      { id: 'amanda', name: 'Amanda', what: 'Skin, brows & lashes, nails, waxing', photo: 'cb00832dd6c34a3a7441279036b6f8f7.webp', esthetic: true,
+        menu: [
+          { name: 'Skin', items: [
+            { id: 'a-fac', name: 'Signature facial', min: 60, price: '$[00]' },
+            { id: 'a-exp', name: 'Express facial', min: 30, price: '$[00]' } ] },
+          { name: 'Brows & lashes', items: [
+            { id: 'a-brow', name: 'Brow shape & tint', min: 30, price: '$[00]' },
+            { id: 'a-lam', name: 'Brow lamination', min: 45, price: '$[00]' },
+            { id: 'a-lift', name: 'Lash lift & tint', min: 60, price: '$[00]' },
+            { id: 'a-ext', name: 'Lash extensions, full set', min: 120, price: '$[00]' },
+            { id: 'a-lfill', name: 'Lash fill', min: 60, price: '$[00]' } ] },
+          { name: 'Nails', items: [
+            { id: 'a-gel', name: 'Gel manicure', min: 60, price: '$[00]' } ] },
+          { name: 'Waxing', items: [
+            { id: 'a-uwax', name: 'Underarm wax', min: 15, price: '$[00]' },
+            { id: 'a-lwax', name: 'Full leg wax', min: 45, price: '$[00]' } ] } ] },
+      { id: 'toni', name: 'Toni', what: 'Nails', photo: '7751023ba75beef94cb03a973d896b6c.webp', esthetic: false,
+        menu: [
+          { name: 'Manicure & pedicure', items: [
+            { id: 't-gel', name: 'Gel manicure', min: 60, price: '$[00]' },
+            { id: 't-ped', name: 'Gel pedicure', min: 75, price: '$[00]' } ] },
+          { name: 'Extensions', items: [
+            { id: 't-set', name: 'Builder gel full set', min: 120, price: '$[00]' },
+            { id: 't-nfill', name: 'Fill', min: 90, price: '$[00]' },
+            { id: 't-rem', name: 'Removal', min: 30, price: '$[00]' } ] },
+          { name: 'Art', items: [
+            { id: 't-art', name: 'Nail art, per set', min: 30, price: '$[00]' } ] } ] },
+      { id: 'tonya', name: 'Tonya', what: 'Acupuncture, cupping, guasha, candling', photo: '8d6b853f1ad0906af0c60dc75c267898.webp', esthetic: false,
+        menu: [
+          { name: 'Acupuncture', items: [
+            { id: 'y-acu1', name: 'Acupuncture, first visit', min: 90, price: '$[00]' },
+            { id: 'y-acu', name: 'Acupuncture, follow-up', min: 60, price: '$[00]' } ] },
+          { name: 'Holistic', items: [
+            { id: 'y-cup', name: 'Cupping', min: 45, price: '$[00]' },
+            { id: 'y-gua', name: 'Gua sha facial', min: 45, price: '$[00]' },
+            { id: 'y-can', name: 'Ear candling', min: 30, price: '$[00]' } ] } ] }
+    ];
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = this.fresh(props.preselect, props.serviceKey);
+  }
+  // a service's shared key: the id without the specialist prefix (a-gel and t-gel are both "gel")
+  keyOf(id) { return id.slice(2); }
+  itemFor(pro, key) { return pro.menu.flatMap((c) => c.items).find((i) => this.keyOf(i.id) === key) || null; }
+  fresh(preselect, serviceKey) {
+    const pros = this.pros();
+    const blank = { day: null, time: null, form: { name: '', phone: '', email: '', notes: '' }, tried: false, svcKey: null };
+    if (serviceKey) {
+      // opened from a service: only the specialists who do it; with just one, go straight to their price list
+      const offering = pros.filter((p) => this.itemFor(p, serviceKey));
+      if (offering.length === 1) return { ...blank, step: 2, pro: offering[0].id, svc: this.itemFor(offering[0], serviceKey).id };
+      if (offering.length > 1) return { ...blank, step: 1, pro: null, svc: null, svcKey: serviceKey };
+    }
+    const known = pros.some((p) => p.id === preselect);
+    return { ...blank, step: known ? 2 : 1, pro: known ? preselect : null, svc: null };
+  }
+  componentDidUpdate(prev) {
+    if (this.props.open && (!prev.open || prev.openKey !== this.props.openKey)) this.setState(this.fresh(this.props.preselect, this.props.serviceKey));
+  }
+  componentDidMount() {
+    this.onKey = (e) => { if (e.key === 'Escape' && (this.props.open ?? true)) this.close(); };
+    document.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { document.removeEventListener('keydown', this.onKey); }
+  close() { if (this.props.onClose) this.props.onClose(); }
+
+  // opening hours: Mon 10–5 (esthetic services only), Tue–Sat 9–7, Sun closed
+  hoursFor(date, pro) {
+    const dow = date.getDay();
+    if (dow === 0) return { why: 'Closed on Sundays' };
+    if (dow === 1) return pro && pro.esthetic ? { open: 10 * 60, close: 17 * 60 } : { why: 'Mondays are esthetic services only' };
+    return { open: 9 * 60, close: 19 * 60 };
+  }
+  fmtTime(m) {
+    const h = Math.floor(m / 60), mm = m % 60, ap = h >= 12 ? 'pm' : 'am';
+    return ((h + 11) % 12 + 1) + ':' + String(mm).padStart(2, '0') + ' ' + ap;
+  }
+  fmtDur(min) { return min < 60 ? min + ' min' : Math.floor(min / 60) + ' h' + (min % 60 ? ' ' + (min % 60) + ' min' : ''); }
+
+  renderVals() {
+    const S = this.state, pros = this.pros();
+    const open = this.props.open ?? true;
+    const pro = pros.find((p) => p.id === S.pro) || null;
+    const all = pro ? pro.menu.flatMap((c) => c.items) : [];
+    const svc = all.find((i) => i.id === S.svc) || null;
+    const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // next 14 days
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const days = [];
+    for (let k = 0; k < 14; k++) {
+      const d = new Date(today); d.setDate(today.getDate() + k);
+      const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(), hrs = this.hoursFor(d, pro);
+      const off = !hrs.open;
+      days.push({ key, date: d, hrs, off, on: S.day === key, why: hrs.why || '',
+        dow: k === 0 ? 'Today' : DOW[d.getDay()], num: String(d.getDate()).padStart(2, '0'), mon: MON[d.getMonth()],
+        cls: 'bk-day' + (S.day === key ? ' bk-day-on' : '') + (off ? ' bk-day-off' : ''),
+        pick: () => { if (!off) this.setState({ day: key, time: null }); } });
+    }
+    const dayObj = days.find((d) => d.key === S.day) || null;
+
+    // slots every 30 min that fit the service before closing (and not in the past today)
+    const times = [];
+    if (dayObj && !dayObj.off && svc) {
+      const now = new Date(), isToday = dayObj.date.getTime() === today.getTime();
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      for (let m = dayObj.hrs.open; m + svc.min <= dayObj.hrs.close; m += 30) {
+        if (isToday && m <= nowMin + 60) continue;
+        times.push({ m, label: this.fmtTime(m), on: S.time === m,
+          cls: 'bk-time' + (S.time === m ? ' bk-time-on' : ''), pick: () => this.setState({ time: m }) });
+      }
+    }
+
+    const f = S.form;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim());
+    const phoneOk = f.phone.replace(/\D/g, '').length >= 7;
+    const formOk = f.name.trim().length > 1 && (emailOk || phoneOk);
+    const formError = f.name.trim().length < 2 ? 'Add your name' : 'Add an email or phone so we can confirm';
+
+    const whenText = dayObj && S.time != null
+      ? DOW[dayObj.date.getDay()] + ' ' + dayObj.date.getDate() + ' ' + MON[dayObj.date.getMonth()] + ', ' + this.fmtTime(S.time) : '';
+    const contactText = [f.name.trim(), f.phone.trim(), f.email.trim()].filter(Boolean).join(' · ');
+
+    const step = S.step;
+    const titles = { 1: 'Pick your specialist', 2: 'Choose a service', 3: 'Pick a time', 4: 'Your details', 5: 'Review & send', 6: '' };
+    const labels = ['01 Specialist', '02 Service', '03 Time', '04 Details', '05 Review'];
+    const valid = { 1: !!pro, 2: !!svc, 3: !!dayObj && S.time != null, 4: formOk, 5: true };
+
+    const send = () => {
+      const body = [
+        'Hi Slayed, I would like to book:', '',
+        'Specialist: ' + (pro ? pro.name : ''), 'Service: ' + (svc ? svc.name + ' (' + this.fmtDur(svc.min) + ', ' + svc.price + ')' : ''),
+        'When: ' + whenText, '', 'Name: ' + f.name.trim(), 'Phone: ' + f.phone.trim(), 'Email: ' + f.email.trim(),
+        f.notes.trim() ? 'Notes: ' + f.notes.trim() : ''
+      ].filter((l, i, a) => !(l === '' && a[i - 1] === '')).join('\n');
+      const url = 'mailto:workforyuliia@gmail.com?subject=' + encodeURIComponent('Booking request: ' + (svc ? svc.name : '') + ' with ' + (pro ? pro.name : '')) + '&body=' + encodeURIComponent(body);
+      const win = window.open(url, '_blank');
+      if (!win) window.location.href = url;
+      this.setState({ step: 6 });
+    };
+    const setField = (k) => (e) => this.setState({ form: { ...this.state.form, [k]: e.target.value } });
+
+    return {
+      open,
+      title: titles[step],
+      showSteps: step < 6,
+      steps: labels.map((l, i) => ({ label: l, cls: 'bk-step' + (i + 1 === step ? ' bk-step-on' : i + 1 < step ? ' bk-step-done' : '') })),
+      isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4, isStep5: step === 5, isDone: step === 6,
+
+      pros: pros.filter((p) => !S.svcKey || this.itemFor(p, S.svcKey)).map((p) => {
+        const on = S.pro === p.id;
+        const match = S.svcKey ? this.itemFor(p, S.svcKey) : null;
+        return { ...p, on, alt: p.name + ', ' + p.what,
+          from: match ? match.name + ' · ' + match.price : p.menu.reduce((n, c) => n + c.items.length, 0) + ' services',
+          cls: 'bk-pro' + (on ? ' bk-pro-on' : ''),
+          pick: () => this.setState({ pro: p.id, svc: match ? match.id : (S.pro === p.id ? S.svc : null), day: null, time: null, step: 2 }) };
+      }),
+      menu: pro ? pro.menu.map((c) => ({ name: c.name, items: c.items.map((i) => ({ ...i, on: S.svc === i.id, dur: this.fmtDur(i.min),
+        cls: 'bk-svc' + (S.svc === i.id ? ' bk-svc-on' : ''), pick: () => this.setState({ svc: i.id, time: null }) })) })) : [],
+
+      days, times,
+      timesTitle: dayObj ? 'Times on ' + DOW[dayObj.date.getDay()] + ' ' + dayObj.date.getDate() + ' ' + MON[dayObj.date.getMonth()] : 'Time',
+      hasTimes: times.length > 0,
+      noTimes: times.length === 0,
+      noTimesNote: !dayObj ? 'Choose a day to see open times.' : 'No times left that day for a ' + this.fmtDur(svc ? svc.min : 0) + ' service. Try another day.',
+
+      form: f, setName: setField('name'), setPhone: setField('phone'), setEmail: setField('email'), setNotes: setField('notes'),
+      showFormError: step === 4 && S.tried && !formOk, formError,
+
+      sum: { pro: pro ? pro.name + ' · ' + pro.what : '', service: svc ? svc.name + ' · ' + this.fmtDur(svc.min) + ' · ' + svc.price : '', when: whenText, contact: contactText },
+      go1: () => this.setState({ step: 1 }), go2: () => this.setState({ step: 2 }), go3: () => this.setState({ step: 3 }), go4: () => this.setState({ step: 4 }),
+
+      hasPro: !!pro, noPro: !pro,
+      rail: {
+        photo: pro ? pro.photo : '', name: pro ? pro.name : '', what: pro ? pro.what : '',
+        service: svc ? svc.name : 'Not chosen yet', serviceCls: 'bk-rail-val' + (svc ? '' : ' bk-rail-empty'),
+        dur: svc ? this.fmtDur(svc.min) : '—', durCls: 'bk-rail-val' + (svc ? '' : ' bk-rail-empty'),
+        when: whenText || 'Not chosen yet', whenCls: 'bk-rail-val' + (whenText ? '' : ' bk-rail-empty'),
+        price: svc ? svc.price : '—'
+      },
+
+      showFoot: step < 6,
+      canBack: step > 1 && step < 6, noBack: step === 1,
+      cantNext: step !== 4 && !valid[step],
+      nextLabel: step === 5 ? 'Send request' : 'Continue',
+      next: () => {
+        if (step === 4 && !formOk) { this.setState({ tried: true }); return; }
+        if (step === 5) { send(); return; }
+        if (valid[step]) this.setState({ step: step + 1, tried: false });
+      },
+      back: () => this.setState({ step: Math.max(1, step - 1) }),
+      close: () => this.close(),
+      onBackdrop: (e) => { if (e.target === e.currentTarget) this.close(); }
+    };
+  }
+}
+</script>
+</body>
+</html>
