@@ -58,13 +58,11 @@
 /* variant B · step 1: filters + full service list */
 .bk-filters{display:flex;flex-direction:column;gap:12px;margin:0 0 24px}
 .bk-chiprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.bk-chiprow-label{font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500);margin-right:4px}
 .bk-chip{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px;border-radius:var(--radius-pill);box-shadow:inset 0 0 0 1px var(--gray-200);font:var(--text-Microcopy);text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:box-shadow .2s,background .2s,color .2s}
 .bk-chip:hover{box-shadow:inset 0 0 0 1px var(--black)}
 .bk-chip:focus-visible{outline:2px solid var(--red);outline-offset:2px}
 .bk-chip-on,.bk-chip-on:hover{background:var(--black);color:var(--white);box-shadow:none}
-.bk-chip-pro{padding-left:4px}
-.bk-chip-pro img{width:28px;height:28px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
+.bk-lock{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0;font:var(--text-Body-S);color:var(--gray-500)}
 .bk-svc-who{display:block;font:var(--text-Microcopy);text-transform:uppercase;color:var(--gray-500);margin-top:2px}
 .bk-svc-on .bk-svc-who{color:var(--gray-200)}
 /* variant B · step 2: "No preference" card */
@@ -150,7 +148,6 @@ textarea.bk-input{min-height:72px;resize:vertical;white-space:pre-wrap}
  .bk-close{position:fixed;top:16px;right:16px;z-index:4}
  .bk-pros{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
  .bk-chiprow{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px}
- .bk-chiprow-label{display:none}
  .bk-pro-name{font-size:18px;line-height:20px}
  .bk-svc{padding:12px;gap:12px}
  .bk-times{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -191,7 +188,7 @@ textarea.bk-input{min-height:72px;resize:vertical;white-space:pre-wrap}
   </div>
 
   <div class="bk-body">
-    <!-- 01 · Service: the whole menu, filterable by category or by a specialist you already know -->
+    <!-- 01 · Service: the whole menu, filterable by category (opened from a specialist's card, it shows only their services) -->
     <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
     <div>
       <div class="bk-filters">
@@ -200,12 +197,9 @@ textarea.bk-input{min-height:72px;resize:vertical;white-space:pre-wrap}
             <button type="button" class="{{ c.cls }}" aria-pressed="{{ c.on }}" onClick="{{ c.pick }}">{{ c.name }}</button>
           </sc-for>
         </div>
-        <div class="bk-chiprow" role="group" aria-label="Book with a specialist you know">
-          <span class="bk-chiprow-label">Know who you want?</span>
-          <sc-for list="{{ proChips }}" as="p" hint-placeholder-count="4">
-            <button type="button" class="{{ p.cls }}" aria-pressed="{{ p.on }}" onClick="{{ p.pick }}"><img src="{{ p.photo }}" alt="">{{ p.name }}</button>
-          </sc-for>
-        </div>
+        <sc-if value="{{ hasLock }}" hint-placeholder-val="{{ false }}">
+        <p class="bk-lock"><span>Showing {{ lockName }}’s services</span><button type="button" class="bk-edit" onClick="{{ clearLock }}">Show all services</button></p>
+        </sc-if>
       </div>
       <sc-for list="{{ menu }}" as="c" hint-placeholder-count="2">
         <h3 class="bk-cat">{{ c.name }}</h3>
@@ -428,15 +422,16 @@ class Component extends DCLogic {
   keyOf(id) { return id.slice(2); }
   itemFor(pro, key) { return pro.menu.flatMap((c) => c.items).find((i) => this.keyOf(i.id) === key) || null; }
   offering(key) { return this.pros().filter((p) => this.itemFor(p, key)); }
-  // Variant B: the visitor starts from the service. A specialist chosen up front (returning clients,
-  // or a "Book" button on a team card) filters the menu and skips the specialist step.
+  // Variant B: the visitor starts from the service, then picks from the specialists who offer it.
+  // Opened from a team card's "Book now", the menu shows that specialist's services (with "Show all")
+  // and they arrive pre-selected on the specialist step; so does the only person who offers a service.
   fresh(preselect, serviceKey) {
     const blank = { day: null, time: null, form: { name: '', phone: '', email: '', notes: '' }, tried: false, cat: 'all', any: false };
     const known = this.pros().some((p) => p.id === preselect);
     if (serviceKey && this.offering(serviceKey).length) {
       const offer = this.offering(serviceKey);
-      if (known && offer.some((p) => p.id === preselect)) return { ...blank, key: serviceKey, pro: preselect, lock: preselect, step: 3 };
-      if (offer.length === 1) return { ...blank, key: serviceKey, pro: offer[0].id, step: 3 };
+      if (known && offer.some((p) => p.id === preselect)) return { ...blank, key: serviceKey, pro: preselect, lock: preselect, step: 2 };
+      if (offer.length === 1) return { ...blank, key: serviceKey, pro: offer[0].id, lock: null, step: 2 };
       return { ...blank, key: serviceKey, pro: null, lock: null, step: 2 };
     }
     return { ...blank, key: null, pro: known ? preselect : null, lock: known ? preselect : null, step: 1 };
@@ -532,8 +527,6 @@ class Component extends DCLogic {
     const titles = { 1: 'Choose a service', 2: 'Pick your specialist', 3: 'Pick a time', 4: 'Your details', 5: 'Review & send', 6: '' };
     const labels = ['01 Service', '02 Specialist', '03 Time', '04 Details', '05 Review'];
     const valid = { 1: !!S.key, 2: hasWho, 3: !!dayObj && S.time != null, 4: formOk, 5: true };
-    // the specialist step only appears when there is a real choice to make
-    const skip2 = !!S.lock || single;
 
     const send = () => {
       const body = [
@@ -550,13 +543,6 @@ class Component extends DCLogic {
     const setField = (k) => (e) => this.setState({ form: { ...this.state.form, [k]: e.target.value } });
     const catChips = [{ id: 'all', name: 'All' }].concat(this.cats()).map((c) => ({ ...c, on: S.cat === c.id,
       cls: 'bk-chip' + (S.cat === c.id ? ' bk-chip-on' : ''), pick: () => this.setState({ cat: c.id }) }));
-    const proChips = pros.map((p) => ({ ...p, on: S.lock === p.id, cls: 'bk-chip bk-chip-pro' + (S.lock === p.id ? ' bk-chip-on' : ''),
-      pick: () => {
-        if (S.lock === p.id) { this.setState({ lock: null, pro: S.key && offer.length === 1 ? S.pro : null }); return; }
-        const keep = S.key && this.itemFor(p, S.key);
-        this.setState({ lock: p.id, pro: p.id, any: false, key: keep ? S.key : null, day: null, time: null });
-      } }));
-
     return {
       open,
       title: titles[step],
@@ -564,8 +550,11 @@ class Component extends DCLogic {
       steps: labels.map((l, i) => ({ label: l, cls: 'bk-step' + (i + 1 === step ? ' bk-step-on' : i + 1 < step ? ' bk-step-done' : '') })),
       isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4, isStep5: step === 5, isDone: step === 6,
 
-      catChips, proChips, menu,
-      proHint: svc ? svc.name + ' is done by ' + offer.map((p) => p.name).join(' and ') + '. Pick who you’d like, or take the first free time.' : '',
+      catChips, menu,
+      hasLock: !!lock, lockName: lock ? lock.name : '',
+      clearLock: () => this.setState({ lock: null, pro: null, any: false, day: null, time: null }),
+      proHint: !svc ? '' : single ? svc.name + ' is done by ' + offer[0].name + '. Continue to pick a time.'
+        : svc.name + ' is done by ' + offer.map((p) => p.name).join(' and ') + '. Pick who you’d like, or take the first free time.',
       pros: offer.map((p) => {
         const on = S.pro === p.id, it = this.itemFor(p, S.key);
         return { ...p, on, alt: p.name + ', ' + p.what, from: it.name + ' · ' + it.price,
@@ -587,7 +576,7 @@ class Component extends DCLogic {
       showFormError: step === 4 && S.tried && !formOk, formError,
 
       sum: { service: svc ? svc.name + ' · ' + this.fmtDur(svc.min) + ' · ' + svc.price : '', pro: pro ? pro.name + ' · ' + pro.what : whoText, when: whenText, contact: contactText },
-      go1: () => this.setState({ step: 1 }), go2: () => this.setState({ step: skip2 ? 1 : 2 }), go3: () => this.setState({ step: 3 }), go4: () => this.setState({ step: 4 }),
+      go1: () => this.setState({ step: 1 }), go2: () => this.setState({ step: 2 }), go3: () => this.setState({ step: 3 }), go4: () => this.setState({ step: 4 }),
 
       hasPro: !!pro, noPro: !pro,
       rail: {
@@ -608,10 +597,11 @@ class Component extends DCLogic {
         if (step === 4 && !formOk) { this.setState({ tried: true }); return; }
         if (step === 5) { send(); return; }
         if (!valid[step]) return;
-        if (step === 1 && skip2) { this.setState({ step: 3, pro: S.lock || (single ? offer[0].id : S.pro), tried: false }); return; }
+        // into the specialist step with the obvious choice already made (a specialist picked up front, or the only one who offers it)
+        if (step === 1) { this.setState({ step: 2, pro: S.lock || (single ? offer[0].id : S.pro), tried: false }); return; }
         this.setState({ step: step + 1, tried: false });
       },
-      back: () => this.setState({ step: step === 3 && skip2 ? 1 : Math.max(1, step - 1) }),
+      back: () => this.setState({ step: Math.max(1, step - 1) }),
       close: () => this.close(),
       onBackdrop: (e) => { if (e.target === e.currentTarget) this.close(); }
     };
