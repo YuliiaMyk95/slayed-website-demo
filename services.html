@@ -450,7 +450,8 @@ class Component extends DCLogic {
         // "with …": everyone who offers it, in team order
         const pros = C.team.filter((t) => s.offeredBy.some((o) => o.specialist === t.id)).map((t) => t.name);
         return { key: s.key, name: s.name, min: s.durationMinutes, desc: s.description, img: s.image, pros,
-          price: s.priceLabel || ('From $' + Math.min(...nums)) };
+          // the lowest price; a text price (like "Free") is shown as it is
+          price: s.priceLabel || (nums.length ? 'From $' + Math.min(...nums) : s.offeredBy[0].price) };
       })
     }));
     return this._cat;

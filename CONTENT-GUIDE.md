@@ -91,7 +91,8 @@ Categories (the tabs on the services page) contain services:
 - **`offeredBy`** says who does the service and at what price.
   - The services page shows "From $" plus the lowest price, and "with Amanda or Toni".
   - The booking pop-up lets the visitor choose between them.
-- **`priceLabel`** is optional. It is text shown on the services page instead of "From $…", such as `"Free consult"`.
+- **A price written as text**, like `"Free"`, is shown exactly as written on both the services page and in the booking pop-up.
+- **`priceLabel`** is optional. It is text shown on the services page instead of "From $…".
 - **`bookingName`** is optional. It is a different name used only in the booking pop-up.
 - **A category's `specialists`** are the faces and the "With …" line above that category's list. The check warns if they don't match who offers its services.
 - The order of services is the order shown on the services page and in the booking pop-up.

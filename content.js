@@ -198,7 +198,7 @@ window.SLAYED_CONTENT = (function f(o){Object.values(o).forEach(function(v){if(v
      "description": "Start with a consultation; we plan the steps to the colour you want.",
      "durationMinutes": 30,
      "image": "167586dbdd315dd38cbd3e5fa75c9285.webp",
-     "priceLabel": "Free consult",
+     "priceLabel": null,
      "offeredBy": [
       {
        "specialist": "kennedy",
