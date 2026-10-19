@@ -1,4 +1,22 @@
-# Plain static site — nothing to build. Netlify publishes the files in this folder as they are.
+# Static site. Before each deploy Netlify checks the salon content in content/*.json
+# and rebuilds content.js from it. If the check finds a problem the deploy stops and
+# the site that is already live stays as it is (the error is shown in the deploy log).
 [build]
   publish = "."
-  command = "echo 'Static site - no build step needed'"
+  command = "node scripts/build-content.mjs"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Never serve the raw content files or the build script as pages.
+[[redirects]]
+  from = "/content/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404"
+  status = 404
+  force = true

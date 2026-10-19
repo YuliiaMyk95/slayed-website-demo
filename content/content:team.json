@@ -1,0 +1,37 @@
+{
+  "specialists": [
+    {
+      "id": "kennedy",
+      "name": "Kennedy",
+      "photo": "fb87bdefd7fa39f0ea3b4873188bd5b0.webp",
+      "photoAlt": "Kennedy, hair stylist",
+      "specialties": "Hair",
+      "estheticServices": false
+    },
+    {
+      "id": "amanda",
+      "name": "Amanda",
+      "photo": "cb00832dd6c34a3a7441279036b6f8f7.webp",
+      "photoAlt": "Amanda, skin, brow, lash and nail specialist",
+      "specialties": "Skin, brows & lashes, nails, waxing",
+      "cardText": "Skin, brows & lashes,\nnails, waxing.",
+      "estheticServices": true
+    },
+    {
+      "id": "toni",
+      "name": "Toni",
+      "photo": "7751023ba75beef94cb03a973d896b6c.webp",
+      "photoAlt": "Toni, nail artist",
+      "specialties": "Nails",
+      "estheticServices": false
+    },
+    {
+      "id": "tonya",
+      "name": "Tonya",
+      "photo": "8d6b853f1ad0906af0c60dc75c267898.webp",
+      "photoAlt": "Tonya, acupuncture and holistic treatments",
+      "specialties": "Acupuncture, cupping, guasha, candling",
+      "estheticServices": false
+    }
+  ]
+}
