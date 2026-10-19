@@ -65,7 +65,6 @@
           "description": "Start with a consultation; we plan the steps to the colour you want.",
           "durationMinutes": 30,
           "image": "167586dbdd315dd38cbd3e5fa75c9285.webp",
-          "priceLabel": "Free consult",
           "offeredBy": [
             { "specialist": "kennedy", "price": "Free" }
           ]
