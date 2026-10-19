@@ -337,8 +337,13 @@ main .sl-cta .sl-sh-title{white-space:normal}
    wrap onto a new line instead of running past the page margin. */
 .sl-foot .sl-foot-contact .sl-foot-detail{white-space:normal;overflow-wrap:break-word;max-width:100%}
 .sl-foot .sl-foot-contact{max-width:100%;min-width:0}
-/* wide screens: the column ends exactly at the page margin (64px at 1440) */
-@media (min-width:1440px){.sl-foot .sl-foot-contact{width:251px}}
+/* wide screens: the columns spread between the page margins (64px at 1440) and the footer grows
+   with its content, so longer text (a category name, an address) never crosses the edge or the line */
+@media (min-width:1440px){
+  .sl-foot.sl-foot{height:auto;padding:100px 0 250px}
+  .sl-foot .sl-foot-cols{position:relative;top:auto;left:auto;width:1312px;margin:0 auto;justify-content:space-between;gap:40px}
+  .sl-foot .sl-foot-rule{position:relative;top:auto;left:auto;margin:80px auto 0}
+}
 </style>
 </helmet>
 <main style="font-family: var(--font-sans); color: var(--black); background: var(--gray-100); position: relative">
