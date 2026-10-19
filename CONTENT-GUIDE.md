@@ -1,14 +1,35 @@
 # Editing the salon content
 
-Everything visitors read about the salon lives in six files in the `content/` folder. Change a file there, commit it, and Netlify publishes the update. The check described below runs first.
+Everything visitors read about the salon lives in six files in the `content/` folder.
+
+## The easy way: the content editor (Pages CMS)
+
+1. Go to **https://app.pagescms.org** and sign in. The owner signs in with GitHub. Staff sign in with the email address they were invited with, and need no GitHub account.
+2. Open **slayed-website-demo**. In the left menu you'll see: Services & prices, Team, Opening hours, Contact details, Gallery, Booking rules.
+3. Change what you need and click **Save**.
+4. The live site updates within about 2 minutes.
+
+**If your change doesn't appear after 5 minutes,** the automatic check found a problem and kept the previous version online. Netlify emails the owner the reason (see "Owner setup" below). Common causes:
+- two services with the same code;
+- a price filled in both as a number and as text;
+- a closing time earlier than the opening time;
+- a category's specialists not matching who offers its services (this one is only a warning).
+
+**Owner setup (once):**
+- **Install the editor:** sign in at app.pagescms.org with GitHub and install the Pages CMS app on the `slayed-website-demo` repository only.
+- **Invite staff:** in the editor, open **Collaborators** and invite each person by email.
+- **Get failure emails:** in Netlify, go to **Project configuration → Notifications → Emails → Add notification → "Deploy failed"** and enter your email.
+- **Add a specialist:** add the person on the Team page. Then open **Settings** in the editor (or edit `.pages.yml` on GitHub) and add their id to the two `specialist` lists, so they can be picked on the Services page.
+
+The rest of this guide explains each file field by field, for editing them directly on GitHub.
 
 ## Ground rules
 
 - **Keep the punctuation.** Text goes in "double quotes". Items in a list are separated by commas, and there is no comma after the last one.
-- **Prices are plain numbers**, like `65`, with no `$` and no quotes. For something that isn't a number, use text, like `"Free"`.
+- **Prices are plain numbers**, like `"price": 65`, with no `$` and no quotes. For something that isn't a number, use `"priceText": "Free"` instead.
 - **Durations are minutes**, like `90`.
 - **Times use the 24-hour clock**, like `"09:00"` or `"17:30"`.
-- **Photos:** upload the image file to the main site folder first, then type its exact file name.
+- **Photos:** upload the image file to the main site folder first, then type its exact file name. The editor does this for you.
 - **Don't change an `id` or `key` once the site is live.** Links like `services.html#nails` and the booking pop-up depend on them. You can still change the visible `name` freely.
 - If something is wrong, the deploy stops and the current site stays online. The Netlify deploy log lists each problem in plain words, for example: *`services.json … "price" "$65" looks like a number — write it without quotes or "$"`*.
 
@@ -91,7 +112,7 @@ Categories (the tabs on the services page) contain services:
 - **`offeredBy`** says who does the service and at what price.
   - The services page shows "From $" plus the lowest price, and "with Amanda or Toni".
   - The booking pop-up lets the visitor choose between them.
-- **A price written as text**, like `"Free"`, is shown exactly as written on both the services page and in the booking pop-up.
+- **`priceText`** replaces `price` for a price that isn't a number, such as `{ "specialist": "kennedy", "priceText": "Free" }`. It is shown exactly as written on both the services page and in the booking pop-up.
 - **`priceLabel`** is optional. It is text shown on the services page instead of "From $…".
 - **`bookingName`** is optional. It is a different name used only in the booking pop-up.
 - **A category's `specialists`** are the faces and the "With …" line above that category's list. The check warns if they don't match who offers its services.

@@ -66,7 +66,7 @@
           "durationMinutes": 30,
           "image": "167586dbdd315dd38cbd3e5fa75c9285.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": "Free" }
+            { "specialist": "kennedy", "priceText": "Free" }
           ]
         },
         {
