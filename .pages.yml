@@ -66,6 +66,7 @@ content:
                 - { value: amanda, label: Amanda }
                 - { value: toni, label: Toni }
                 - { value: tonya, label: Tonya }
+                - { value: chandelle, label: Chandelle }
           - name: services
             label: Services
             type: object
@@ -128,6 +129,7 @@ content:
                         - { value: amanda, label: Amanda }
                         - { value: toni, label: Toni }
                         - { value: tonya, label: Tonya }
+                        - { value: chandelle, label: Chandelle }
                   - name: price
                     label: Price ($)
                     description: Numbers only, e.g. 65. Leave empty if you fill in "Price as text".
