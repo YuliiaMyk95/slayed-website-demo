@@ -1,0 +1,330 @@
+# Pages CMS (https://pagescms.org): the salon content editor.
+# Each entry below is one page in the editor and edits one file in content/.
+# Every save is checked by scripts/build-content.mjs when Netlify deploys. If something is wrong,
+# the deploy stops and the live site stays as it was.
+#
+# Adding a NEW specialist: add them on the "Team" page, then add their id to the two
+# "specialist" lists further down this file (search for "kennedy").
+
+media:
+  input: ""            # photos live in the main site folder, next to index.html
+  output: ""
+  categories: [image]
+  rename: safe          # "My Photo 1.JPG" is saved as "my-photo-1.jpg"
+
+content:
+  # ── Services & prices ────────────────────────────────────────────────────
+  - name: services
+    label: Services & prices
+    description: Categories (the tabs on the services page) and every service, with who does it and at what price. The booking pop-up uses the same list.
+    type: file
+    path: content/services.json
+    format: json
+    fields:
+      - name: defaultImage
+        label: Fallback photo
+        description: Shown for a service that has no photo of its own.
+        type: image
+        required: true
+      - name: categories
+        label: Categories
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: id
+            label: Link name
+            description: Used in links like services.html#nails. Lowercase, no spaces. Don't change it once the site is live.
+            type: string
+            required: true
+            pattern:
+              regex: "^[a-z][a-z0-9-]*$"
+              message: Lowercase letters, numbers and dashes only (e.g. nails).
+          - name: name
+            label: Tab name
+            type: string
+            required: true
+          - name: title
+            label: Heading
+            type: string
+            required: true
+          - name: description
+            label: Short description
+            type: text
+            required: true
+          - name: specialists
+            label: Specialists shown for this category
+            description: The faces and "With …" line above the list. Should match who offers the services below.
+            type: select
+            required: true
+            options:
+              multiple: true
+              values:
+                - { value: kennedy, label: Kennedy }
+                - { value: amanda, label: Amanda }
+                - { value: toni, label: Toni }
+                - { value: tonya, label: Tonya }
+          - name: services
+            label: Services
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{name}"
+            fields:
+              - name: key
+                label: Service code
+                description: A short permanent code, unique across ALL services (e.g. gel). Lowercase, no spaces. Don't change it once the site is live.
+                type: string
+                required: true
+                pattern:
+                  regex: "^[a-z][a-z0-9-]*$"
+                  message: Lowercase letters, numbers and dashes only (e.g. gel).
+              - name: name
+                label: Service name
+                type: string
+                required: true
+              - name: bookingName
+                label: Name in the booking pop-up (optional)
+                description: Leave empty to use the service name.
+                type: string
+              - name: description
+                label: Description
+                type: text
+                required: true
+              - name: durationMinutes
+                label: Duration (minutes)
+                description: Decides which start times the booking pop-up offers.
+                type: number
+                required: true
+                options:
+                  min: 5
+              - name: image
+                label: Photo
+                type: image
+                required: true
+              - name: priceLabel
+                label: Price text on the services page (optional)
+                description: Shown instead of "From $…". Leave empty to show the lowest price automatically.
+                type: string
+              - name: offeredBy
+                label: Who does it, and their price
+                type: object
+                list:
+                  min: 1
+                  collapsible:
+                    collapsed: false
+                    summary: "{specialist}"
+                fields:
+                  - name: specialist
+                    label: Specialist
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - { value: kennedy, label: Kennedy }
+                        - { value: amanda, label: Amanda }
+                        - { value: toni, label: Toni }
+                        - { value: tonya, label: Tonya }
+                  - name: price
+                    label: Price ($)
+                    description: Numbers only, e.g. 65. Leave empty if you fill in "Price as text".
+                    type: number
+                    options:
+                      min: 0
+                  - name: priceText
+                    label: Price as text
+                    description: Only for prices that aren't a number, e.g. Free. Leave empty otherwise.
+                    type: string
+
+  # ── Team ─────────────────────────────────────────────────────────────────
+  - name: team
+    label: Team
+    description: The specialists. The order here is the order of the team cards on the homepage.
+    type: file
+    path: content/team.json
+    format: json
+    fields:
+      - name: specialists
+        label: Specialists
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: id
+            label: Id
+            description: Lowercase, no spaces (e.g. amanda). Services refer to people by it. Don't change it once the site is live.
+            type: string
+            required: true
+            pattern:
+              regex: "^[a-z][a-z0-9-]*$"
+              message: Lowercase letters, numbers and dashes only.
+          - name: name
+            label: Name
+            type: string
+            required: true
+          - name: photo
+            label: Photo
+            type: image
+            required: true
+          - name: photoAlt
+            label: Photo description
+            description: For screen readers, e.g. "Amanda, skin and lash specialist".
+            type: string
+            required: true
+          - name: specialties
+            label: Specialties
+            description: Short line shown in the booking pop-up, e.g. "Hair".
+            type: string
+            required: true
+          - name: cardText
+            label: Team card text (optional)
+            description: Different wording for the homepage card. Leave empty to use Specialties.
+            type: text
+          - name: estheticServices
+            label: Does esthetic services
+            description: Esthetic-only days (Mondays) can only be booked with specialists who have this ticked.
+            type: boolean
+
+  # ── Opening hours ────────────────────────────────────────────────────────
+  - name: hours
+    label: Opening hours
+    description: All seven days. The homepage hours list, the mobile menu and the booking pop-up all use this.
+    type: file
+    path: content/hours.json
+    format: json
+    fields:
+      - name: days
+        label: Days
+        type: object
+        list:
+          min: 7
+          max: 7
+          collapsible:
+            collapsed: true
+            summary: "{day}"
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+          - name: closed
+            label: Closed all day
+            type: boolean
+          - name: open
+            label: Opens
+            description: 24-hour time, e.g. 09:00. Leave empty if closed.
+            type: string
+            pattern:
+              regex: "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              message: Use a 24-hour time like 09:00 or 17:30.
+          - name: close
+            label: Closes
+            description: 24-hour time, e.g. 19:00. Leave empty if closed.
+            type: string
+            pattern:
+              regex: "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              message: Use a 24-hour time like 09:00 or 17:30.
+          - name: onlyFor
+            label: Only for
+            description: Choose "esthetic" if only esthetic specialists work this day. Leave empty otherwise.
+            type: select
+            options:
+              values: [esthetic]
+          - name: note
+            label: Note shown to visitors
+            description: Needed when "Only for" is set, e.g. "Esthetic services only".
+            type: string
+
+  # ── Contact ──────────────────────────────────────────────────────────────
+  - name: contact
+    label: Contact details
+    type: file
+    path: content/contact.json
+    format: json
+    fields:
+      - { name: businessName, label: Business name, type: string, required: true }
+      - { name: address, label: Address, type: string, required: true }
+      - name: phone
+        label: Phone (as shown)
+        type: string
+        required: true
+      - name: phoneLink
+        label: Phone for tap-to-call
+        description: The same number in international form, e.g. +19025550147.
+        type: string
+        required: true
+        pattern:
+          regex: "^\\+[0-9]{7,15}$"
+          message: Start with + and the country code, digits only, e.g. +19025550147.
+      - name: email
+        label: Email
+        description: Also where booking requests are sent.
+        type: string
+        required: true
+      - name: directionsUrl
+        label: Google Maps link
+        type: string
+        required: true
+      - name: intro
+        label: "\"Get in touch\" text"
+        type: text
+        required: true
+
+  # ── Gallery ──────────────────────────────────────────────────────────────
+  - name: gallery
+    label: Gallery
+    description: The "Recent work" photos on the homepage, in order.
+    type: file
+    path: content/gallery.json
+    format: json
+    fields:
+      - name: items
+        label: Photos
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{alt}"
+        fields:
+          - { name: image, label: Photo, type: image, required: true }
+          - name: alt
+            label: Description
+            description: What the photo shows, e.g. "Black chrome stiletto nails with crystals".
+            type: string
+            required: true
+          - name: before
+            label: Before photo (optional)
+            description: Add one to turn this card into a before/after slider.
+            type: image
+
+  # ── Booking rules ────────────────────────────────────────────────────────
+  - name: booking
+    label: Booking rules
+    type: file
+    path: content/booking.json
+    format: json
+    fields:
+      - name: slotEveryMinutes
+        label: Minutes between start times
+        type: number
+        required: true
+        options: { min: 5 }
+      - name: minNoticeMinutes
+        label: Minimum notice (minutes)
+        description: How soon from now the first bookable time can be.
+        type: number
+        required: true
+        options: { min: 0 }
+      - name: daysAhead
+        label: Days shown ahead
+        type: number
+        required: true
+        options: { min: 1 }
