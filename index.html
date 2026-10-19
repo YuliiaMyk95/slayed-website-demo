@@ -332,6 +332,14 @@ main .sl-cta .sl-sh-title{white-space:normal}
 /* footer taller than the screen (phones, short laptops): it scrolls in normally instead of waiting sticky underneath, so its top is never hidden */
 @media (max-width:767px),(max-height:760px){.fx-tail>:last-child{position:relative!important}}
 </style>
+<style>
+/* Footer contact details (address, email, phone) come from the CMS and can be any length:
+   wrap onto a new line instead of running past the page margin. */
+.sl-foot .sl-foot-contact .sl-foot-detail{white-space:normal;overflow-wrap:break-word;max-width:100%}
+.sl-foot .sl-foot-contact{max-width:100%;min-width:0}
+/* wide screens: the column ends exactly at the page margin (64px at 1440) */
+@media (min-width:1440px){.sl-foot .sl-foot-contact{width:251px}}
+</style>
 </helmet>
 <main style="font-family: var(--font-sans); color: var(--black); background: var(--gray-100); position: relative">
 
