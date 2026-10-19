@@ -31,10 +31,20 @@ const warn = (where, msg) => warnings.push(`${where}: ${msg}`);
 function load(name) {
   const file = join(CONTENT, name);
   if (!existsSync(file)) { err(name, 'file is missing'); return null; }
-  try { return JSON.parse(readFileSync(file, 'utf8')); }
+  try { return clean(JSON.parse(readFileSync(file, 'utf8'))); }
   catch (e) { err(name, 'is not valid JSON (' + e.message + '). Check for a missing comma, quote or bracket.'); return null; }
 }
 const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
+// The CMS saves an optional field the editor left empty as "" or null: treat that as "not set".
+function clean(v) {
+  if (Array.isArray(v)) return v.map(clean);
+  if (isObj(v)) {
+    const o = {};
+    for (const [k, x] of Object.entries(v)) if (x !== null && !(typeof x === 'string' && !x.trim())) o[k] = clean(x);
+    return o;
+  }
+  return v;
+}
 const text = (where, obj, key, { optional = false } = {}) => {
   const v = obj ? obj[key] : undefined;
   if (v === undefined || v === null) { if (!optional) err(where, `"${key}" is missing`); return undefined; }
@@ -55,8 +65,10 @@ const fields = (where, obj, allowed) => {
 };
 const fileExists = (where, key, name) => {
   if (!name) return;
-  if (/[\\/]/.test(name) || name.startsWith('.')) { err(where, `"${key}" must be a file name in the site folder, not a path ("${name}")`); return; }
-  if (!existsSync(join(ROOT, name))) err(where, `"${key}" file "${name}" does not exist in the site folder`);
+  // a file in the site folder, or in a subfolder of it (e.g. a photo uploaded through the CMS)
+  const rel = name.replace(/^\//, '');
+  if (/\\/.test(rel) || rel.split('/').some((part) => !part || part.startsWith('.'))) { err(where, `"${key}" "${name}" is not a valid file name`); return; }
+  if (!existsSync(join(ROOT, rel))) err(where, `"${key}" file "${name}" does not exist in the site folder`);
 };
 const ID = /^[a-z][a-z0-9-]*$/;
 const id = (where, obj, key) => {
@@ -176,11 +188,13 @@ if (svcIn && fields('services.json', svcIn, ['defaultImage', 'categories'])) {
       if (!Array.isArray(s.offeredBy) || !s.offeredBy.length) err(W, '"offeredBy" must list at least one specialist with their price, e.g. [{ "specialist": "kennedy", "price": 65 }]');
       else s.offeredBy.forEach((o, oi) => {
         const OW = `${W} offeredBy ${oi + 1}`;
-        if (!fields(OW, o, ['specialist', 'price'])) return;
+        if (!fields(OW, o, ['specialist', 'price', 'priceText'])) return;
         if (!teamIds.has(o.specialist)) err(OW, `specialist "${o.specialist}" is not in team.json`);
         if (offeredBy.some((x) => x.specialist === o.specialist)) err(OW, `"${o.specialist}" is listed twice`);
-        const p = o.price;
-        if (p === undefined || p === null || p === '') err(OW, '"price" is missing (use a number like 65, or text like "Free")');
+        // a numeric "price" (65), or a "priceText" for anything that isn't a number ("Free")
+        if (o.price !== undefined && o.priceText !== undefined) err(OW, `has both "price" (${o.price}) and "priceText" ("${o.priceText}") — keep only one`);
+        const p = o.price !== undefined ? o.price : o.priceText;
+        if (p === undefined) err(OW, 'has no price: add a "price" (a number like 65) or a "priceText" (like "Free")');
         else if (typeof p === 'number') { if (!(p >= 0) || !isFinite(p)) err(OW, `"price" ${p} is not a valid amount`); }
         else if (typeof p === 'string') { if (/^\s*\$?\s*\d/.test(p)) err(OW, `"price" "${p}" looks like a number — write it without quotes or "$", e.g. 65`); }
         else err(OW, '"price" must be a number like 65, or text like "Free"');

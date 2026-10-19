@@ -15,7 +15,9 @@ All salon information is in the **`content/`** folder. The pages read it from th
 | `content/services.json` | Categories and services: name, description, duration, photo, who offers it and at what price | Services page, booking pop-up, footer service links |
 | `content/gallery.json` | "Recent work" photos with descriptions (optional "before" photo) | Homepage gallery |
 
-See **[CONTENT-GUIDE.md](CONTENT-GUIDE.md)** for how to edit each file safely.
+Staff edit these files through **Pages CMS** (https://app.pagescms.org), a free form-based editor that saves changes straight to this repository. Its setup is in `.pages.yml`.
+
+See **[CONTENT-GUIDE.md](CONTENT-GUIDE.md)** for using the editor and for editing each file by hand.
 
 ## How it fits together
 
