@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Slayed Salon — Book a visit (service first)</title>
+<script src="content.js"></script>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="bundle.css">
@@ -350,77 +351,32 @@ textarea.bk-input{min-height:72px;resize:vertical;white-space:pre-wrap}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"open":{"editor":"boolean","default":true,"section":"Booking"},"openKey":{"editor":null},"preselect":{"editor":null},"serviceKey":{"editor":null},"onClose":{"editor":null},"$preview":{"width":1440,"height":900}}'>
 class Component extends DCLogic {
-  // ── Data: every specialist has their own services and price list.
-  // Prices are placeholders until the studio fills them in; durations drive the time slots.
+  // ── Data: everything below comes from content.js (window.SLAYED_CONTENT), which is generated
+  // from the files in content/ — team.json, services.json, hours.json, booking.json, contact.json.
+  // Edit those files, not this one. Durations drive the time slots.
+  content() { return window.SLAYED_CONTENT; }
+  // every specialist with the services they offer at their own price
   pros() {
-    return [
-      { id: 'kennedy', name: 'Kennedy', what: 'Hair', photo: 'fb87bdefd7fa39f0ea3b4873188bd5b0.webp', esthetic: false,
-        menu: [
-          { name: 'Cut & style', items: [
-            { id: 'k-cut', name: 'Haircut & style', min: 60, price: '\$65' },
-            { id: 'k-blow', name: 'Blowout', min: 45, price: '\$45' } ] },
-          { name: 'Colour', items: [
-            { id: 'k-root', name: 'Root touch-up', min: 90, price: '\$95' },
-            { id: 'k-full', name: 'Full colour', min: 120, price: '\$130' },
-            { id: 'k-bal', name: 'Balayage / highlights', min: 180, price: '\$220' },
-            { id: 'k-corr', name: 'Colour correction consult', min: 30, price: 'Free' } ] },
-          { name: 'Treatments', items: [
-            { id: 'k-gloss', name: 'Gloss & treatment', min: 45, price: '\$55' } ] } ] },
-      { id: 'amanda', name: 'Amanda', what: 'Skin, brows & lashes, nails, waxing', photo: 'cb00832dd6c34a3a7441279036b6f8f7.webp', esthetic: true,
-        menu: [
-          { name: 'Skin', items: [
-            { id: 'a-fac', name: 'Signature facial', min: 60, price: '\$110' },
-            { id: 'a-exp', name: 'Express facial', min: 30, price: '\$65' } ] },
-          { name: 'Brows & lashes', items: [
-            { id: 'a-brow', name: 'Brow shape & tint', min: 30, price: '\$35' },
-            { id: 'a-lam', name: 'Brow lamination', min: 45, price: '\$65' },
-            { id: 'a-lift', name: 'Lash lift & tint', min: 60, price: '\$85' },
-            { id: 'a-ext', name: 'Lash extensions, full set', min: 120, price: '\$160' },
-            { id: 'a-lfill', name: 'Lash fill', min: 60, price: '\$70' } ] },
-          { name: 'Nails', items: [
-            { id: 'a-gel', name: 'Gel manicure', min: 60, price: '\$50' } ] },
-          { name: 'Waxing', items: [
-            { id: 'a-uwax', name: 'Underarm wax', min: 15, price: '\$20' },
-            { id: 'a-lwax', name: 'Full leg wax', min: 45, price: '\$65' } ] } ] },
-      { id: 'toni', name: 'Toni', what: 'Nails', photo: '7751023ba75beef94cb03a973d896b6c.webp', esthetic: false,
-        menu: [
-          { name: 'Manicure & pedicure', items: [
-            { id: 't-gel', name: 'Gel manicure', min: 60, price: '\$50' },
-            { id: 't-ped', name: 'Gel pedicure', min: 75, price: '\$65' } ] },
-          { name: 'Extensions', items: [
-            { id: 't-set', name: 'Builder gel full set', min: 120, price: '\$85' },
-            { id: 't-nfill', name: 'Fill', min: 90, price: '\$65' },
-            { id: 't-rem', name: 'Removal', min: 30, price: '\$20' } ] },
-          { name: 'Art', items: [
-            { id: 't-art', name: 'Nail art, per set', min: 30, price: '\$15' } ] } ] },
-      { id: 'tonya', name: 'Tonya', what: 'Acupuncture, cupping, guasha, candling', photo: '8d6b853f1ad0906af0c60dc75c267898.webp', esthetic: false,
-        menu: [
-          { name: 'Acupuncture', items: [
-            { id: 'y-acu1', name: 'Acupuncture, first visit', min: 90, price: '\$110' },
-            { id: 'y-acu', name: 'Acupuncture, follow-up', min: 60, price: '\$85' } ] },
-          { name: 'Holistic', items: [
-            { id: 'y-cup', name: 'Cupping', min: 45, price: '\$60' },
-            { id: 'y-gua', name: 'Gua sha facial', min: 45, price: '\$75' },
-            { id: 'y-can', name: 'Ear candling', min: 30, price: '\$40' } ] } ] }
-    ];
+    if (this._pros) return this._pros;
+    const C = this.content();
+    this._pros = C.team.map((t) => ({
+      id: t.id, name: t.name, what: t.specialties, photo: t.photo, esthetic: t.estheticServices,
+      items: C.categories.flatMap((c) => c.services.flatMap((s) => s.offeredBy.filter((o) => o.specialist === t.id).map((o) => ({
+        id: t.id + ':' + s.key, key: s.key, name: s.bookingName, min: s.durationMinutes,
+        price: typeof o.price === 'number' ? '$' + o.price : o.price }))))
+    }));
+    return this._pros;
   }
 
-  // the menu by category; a service's key is its id without the specialist prefix (a-gel, t-gel → "gel")
+  // the menu by category; a service shared by two specialists (like "gel") has one key
   cats() {
-    return [
-      { id: 'hair', name: 'Hair', keys: ['cut', 'blow', 'root', 'full', 'bal', 'corr', 'gloss'] },
-      { id: 'nails', name: 'Nails', keys: ['gel', 'ped', 'set', 'nfill', 'rem', 'art'] },
-      { id: 'brows', name: 'Brows & lashes', keys: ['brow', 'lam', 'lift', 'ext', 'lfill'] },
-      { id: 'skin', name: 'Skin & waxing', keys: ['fac', 'exp', 'uwax', 'lwax'] },
-      { id: 'holistic', name: 'Holistic', keys: ['acu1', 'acu', 'cup', 'gua', 'can'] }
-    ];
+    return this.content().categories.map((c) => ({ id: c.id, name: c.name, keys: c.services.map((s) => s.key) }));
   }
   constructor(props) {
     super(props);
     this.state = this.fresh(props.preselect, props.serviceKey);
   }
-  keyOf(id) { return id.slice(2); }
-  itemFor(pro, key) { return pro.menu.flatMap((c) => c.items).find((i) => this.keyOf(i.id) === key) || null; }
+  itemFor(pro, key) { return pro.items.find((i) => i.key === key) || null; }
   offering(key) { return this.pros().filter((p) => this.itemFor(p, key)); }
   // Variant B: the visitor starts from the service, then picks from the specialists who offer it.
   // Opened from a team card's "Book now", the menu shows that specialist's services (with "Show all")
@@ -446,12 +402,12 @@ class Component extends DCLogic {
   componentWillUnmount() { document.removeEventListener('keydown', this.onKey); }
   close() { if (this.props.onClose) this.props.onClose(); }
 
-  // opening hours: Mon 10–5 (esthetic services only), Tue–Sat 9–7, Sun closed
+  // opening hours come from content/hours.json; a day can be limited to esthetic specialists (Mondays)
   hoursFor(date, pro) {
-    const dow = date.getDay();
-    if (dow === 0) return { why: 'Closed on Sundays' };
-    if (dow === 1) return pro && pro.esthetic ? { open: 10 * 60, close: 17 * 60 } : { why: 'Mondays are esthetic services only' };
-    return { open: 9 * 60, close: 19 * 60 };
+    const d = this.content().hours.week[date.getDay()];
+    if (d.closed) return { why: d.reason };
+    if (d.onlyFor === 'esthetic' && !(pro && pro.esthetic)) return { why: d.reason };
+    return { open: d.open, close: d.close };
   }
   fmtTime(m) {
     const h = Math.floor(m / 60), mm = m % 60, ap = h >= 12 ? 'pm' : 'am';
@@ -488,11 +444,12 @@ class Component extends DCLogic {
       }).filter(Boolean)
     })).filter((c) => c.items.length);
 
-    // next 14 days; with "no preference", a day is open if any of the specialists can work it
+    // the next few days (booking.json daysAhead); with "no preference", a day is open if any of the specialists can work it
     const today = new Date(); today.setHours(0, 0, 0, 0);
     const hoursPro = pro || (offer.some((p) => p.esthetic) ? offer.find((p) => p.esthetic) : offer[0]) || null;
     const days = [];
-    for (let k = 0; k < 14; k++) {
+    const rules = this.content().booking;
+    for (let k = 0; k < rules.daysAhead; k++) {
       const d = new Date(today); d.setDate(today.getDate() + k);
       const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(), hrs = this.hoursFor(d, hoursPro);
       const off = !hrs.open;
@@ -506,8 +463,8 @@ class Component extends DCLogic {
     if (dayObj && !dayObj.off && svc) {
       const now = new Date(), isToday = dayObj.date.getTime() === today.getTime();
       const nowMin = now.getHours() * 60 + now.getMinutes();
-      for (let m = dayObj.hrs.open; m + svc.min <= dayObj.hrs.close; m += 30) {
-        if (isToday && m <= nowMin + 60) continue;
+      for (let m = dayObj.hrs.open; m + svc.min <= dayObj.hrs.close; m += rules.slotEveryMinutes) {
+        if (isToday && m <= nowMin + rules.minNoticeMinutes) continue;
         times.push({ m, label: this.fmtTime(m), on: S.time === m,
           cls: 'bk-time' + (S.time === m ? ' bk-time-on' : ''), pick: () => this.setState({ time: m }) });
       }
@@ -535,7 +492,7 @@ class Component extends DCLogic {
         'When: ' + whenText, '', 'Name: ' + f.name.trim(), 'Phone: ' + f.phone.trim(), 'Email: ' + f.email.trim(),
         f.notes.trim() ? 'Notes: ' + f.notes.trim() : ''
       ].filter((l, i, a) => !(l === '' && a[i - 1] === '')).join('\n');
-      const url = 'mailto:workforyuliia@gmail.com?subject=' + encodeURIComponent('Booking request: ' + (svc ? svc.name : '') + (pro ? ' with ' + pro.name : '')) + '&body=' + encodeURIComponent(body);
+      const url = 'mailto:' + this.content().contact.email + '?subject=' + encodeURIComponent('Booking request: ' + (svc ? svc.name : '') + (pro ? ' with ' + pro.name : '')) + '&body=' + encodeURIComponent(body);
       const win = window.open(url, '_blank');
       if (!win) window.location.href = url;
       this.setState({ step: 6 });

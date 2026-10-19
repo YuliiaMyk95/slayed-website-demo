@@ -11,6 +11,7 @@
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#080808">
 <title>Slayed Hair &amp; Esthetics — Hair, nails, brows &amp; lashes</title>
+<script src="content.js"></script>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="bundle.css">
@@ -384,10 +385,9 @@ main .sl-cta .sl-sh-title{white-space:normal}
 </section><section id="team" style="background: var(--gray-100); padding: 100px var(--Margins); display: flex; flex-direction: column; align-items: center; gap: 40px">
 <x-import component-from-global-scope="SLAYED.SectionHeading" eyebrow="Our team" title="Meet the ones who slay it"></x-import>
 <div class="team-row" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-start; gap: 16px; align-self: flex-start; width: max-content; flex: none">
-<x-import component-from-global-scope="SLAYED.TeamCard" name="Kennedy" services="Hair" src="fb87bdefd7fa39f0ea3b4873188bd5b0.webp" alt="Kennedy, hair stylist" href="#book"></x-import>
-<x-import component-from-global-scope="SLAYED.TeamCard" name="Amanda" services="{{amandaServices}}" src="cb00832dd6c34a3a7441279036b6f8f7.webp" alt="Amanda, skin, brow, lash and nail specialist" href="#book"></x-import>
-<x-import component-from-global-scope="SLAYED.TeamCard" name="Toni" services="Nails" src="7751023ba75beef94cb03a973d896b6c.webp" alt="Toni, nail artist" href="#book"></x-import>
-<x-import component-from-global-scope="SLAYED.TeamCard" name="Tonya" services="Acupuncture, cupping, guasha, candling" src="8d6b853f1ad0906af0c60dc75c267898.webp" alt="Tonya, acupuncture and holistic treatments" href="#book"></x-import>
+<sc-for list="{{ team }}" as="t" hint-placeholder-count="4">
+<x-import component-from-global-scope="SLAYED.TeamCard" name="{{ t.name }}" services="{{ t.cardText }}" src="{{ t.photo }}" alt="{{ t.photoAlt }}" href="#book"></x-import>
+</sc-for>
 </div>
 <div class="team-progress" aria-hidden="true"><span></span></div>
 </section>
@@ -402,11 +402,11 @@ main .sl-cta .sl-sh-title{white-space:normal}
 <div class="fx-tail" style="position: relative; background: var(--black)">
 <!-- 06 · Contact -->
 <div id="contact" class="fx-curtain" style="position: relative; z-index: 1; width: 100%; background-color: var(--white)">
-<x-import component-from-global-scope="SLAYED.ContactSection" src="463a5de967399506958af45fd3004380.webp" alt="Inside the Slayed studio" eyebrow="Get in touch" title="Stay connected" intro="{{contactIntro}}" details="{{contactDetails}}" hours="{{hours}}" cta="Get in touch" cta-href="mailto:workforyuliia@gmail.com"></x-import>
+<x-import component-from-global-scope="SLAYED.ContactSection" src="463a5de967399506958af45fd3004380.webp" alt="Inside the Slayed studio" eyebrow="Get in touch" title="Stay connected" intro="{{contactIntro}}" details="{{contactDetails}}" hours="{{hours}}" cta="Get in touch" cta-href="{{ mailto }}"></x-import>
 </div>
 
 <!-- 07 · Footer -->
-<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="88 Mirror Lane, Halifax, NS B3H 0A0" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="(902) 555-0147" style="width: 100%; position: sticky; bottom: 0px; z-index: 0"></x-import>
+<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="{{ contact.address }}" directions-href="{{ contact.directionsUrl }}" email="{{ contact.email }}" phone="{{ contact.phone }}" style="width: 100%; position: sticky; bottom: 0px; z-index: 0"></x-import>
 </div>
 
 
@@ -423,7 +423,7 @@ main .sl-cta .sl-sh-title{white-space:normal}
 </div>
 <div class="mnav-meta">
 <a class="sl-btn sl-btn-dark sl-btn-md" href="#book" onClick="{{ closeMenu }}"><span class="sl-btn-fill" aria-hidden="true"></span><span class="sl-btn-label">Book a visit</span></a>
-<p>Tue–Sat 9:00 am – 7:00 pm</p>
+<p>{{ hoursSummary }}</p>
 </div>
 </nav>
 </div>
@@ -459,7 +459,9 @@ class Component extends DCLogic {
       e.preventDefault();
       const card = t.closest('.sl-team');
       const nameEl = card && card.querySelector('.sl-team-name');
-      const who = nameEl ? nameEl.textContent.trim().toLowerCase() : null;
+      const name = nameEl ? nameEl.textContent.trim() : null;
+      const member = name ? window.SLAYED_CONTENT.team.find((m) => m.name === name) : null;
+      const who = member ? member.id : null;
       this.openBooking(who);
     };
     document.addEventListener('click', this.onBookClick, true);
@@ -648,16 +650,8 @@ class Component extends DCLogic {
   // arrow buttons and the keyboard all snap to the nearest card; it loops forever and
   // auto-advances while the section is on screen.
   initWorks() {
-    const works = [
-      { after: 'bca20903dd3c8b944e20c3cec0233e23.webp', alt: 'Black chrome stiletto nails with crystals' },
-      { after: 'ef1b5afd4f6e31e3c6a6f49c4a072cab.jpg', alt: 'Long blonde hair with pastel colour and a braid' },
-      { after: 'a964aca31a452be895725dac0e75d221.webp', alt: 'Volume lash extensions and brow lamination' },
-      { after: 'ba0bc40041c42422d63b0904d55a2882.jpg', alt: 'Facial treatment in the studio' },
-      { after: 'f71ca10cde4514d3bb98207e0d996cb6.webp', alt: 'Hair colour result' },
-      { after: '12dda040025c604b9fd392c76c6fdc5b.webp', alt: 'Shaped brows and lash extensions' },
-      { after: 'cba1787fb8483cd5c663d5d404929fe9.webp', alt: 'Skin care facial treatment' },
-      { after: 'd260d03d0982001b7cb1d9e954c46442.webp', alt: 'Fluffy volume lash extensions' }
-    ];
+    // photos come from content/gallery.json (via content.js); "before" is optional
+    const works = window.SLAYED_CONTENT.gallery;
     const stage = document.querySelector('#gallery .wk-stage');
     if (!stage) return;
     this.loadGsap().then(() => {
@@ -927,9 +921,11 @@ class Component extends DCLogic {
   }
   renderVals() {
     const st = this.state || {};
+    // salon details come from content.js, generated from the files in content/ — edit those, not this page
+    const C = window.SLAYED_CONTENT;
     return {
       footExplore: [{ label: 'Home', href: '#top' }, { label: 'Services', href: 'services.html' }, { label: 'Gallery', href: '#gallery' }, { label: 'Team', href: '#team' }, { label: 'Contact', href: '#contact' }],
-      footServices: [['Hair', 'hair'], ['Nails', 'nails'], ['Brows & lashes', 'brows'], ['Skin & waxing', 'skin'], ['Holistic', 'holistic']].map(([label, id]) => ({ label, href: 'services.html#' + id })),
+      footServices: C.categories.map((c) => ({ label: c.name, href: 'services.html#' + c.id })),
       menuOpen: !!st.menu,
       menuHidden: !st.menu,
       menuCls: 'mnav' + (st.menu ? ' mnav-open' : ''),
@@ -944,19 +940,18 @@ class Component extends DCLogic {
         nails: { width: 322, height: 483, left: 0, top: 0 },
         other: { width: 339, height: 392, left: 0, top: 0 }
       },
-      amandaServices: 'Skin, brows & lashes,\nnails, waxing.',
+      team: C.team,
+      contact: C.contact,
+      mailto: 'mailto:' + C.contact.email,
+      hoursSummary: C.hours.summary,
       chips: ['Hair', 'Nails', 'Brows & lashes', 'Other'],
       marquee: ['Tooth gems', 'Hair', 'Nails', 'Brows & lashes'],
-      contactIntro: 'Questions, colour corrections or bridal bookings?\nSend us a message and we\u2019ll get back to you.',
+      contactIntro: C.contact.intro,
       contactDetails: [
-        { label: 'Email', value: 'workforyuliia@gmail.com', href: 'mailto:workforyuliia@gmail.com' },
-        { label: 'Phone', value: '(902) 555-0147', href: 'tel:+19025550147' }
+        { label: 'Email', value: C.contact.email, href: 'mailto:' + C.contact.email },
+        { label: 'Phone', value: C.contact.phone, href: 'tel:' + C.contact.phoneLink }
       ],
-      hours: [
-        { text: 'Mon 10:00 am \u2013 5:00 pm', note: 'Esthetic services only' },
-        'Tue\u2013Sat 9:00 am \u2013 7:00 pm',
-        'Sun Closed'
-      ]
+      hours: C.hours.lines
     };
   }
 }

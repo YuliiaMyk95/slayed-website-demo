@@ -11,6 +11,7 @@
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#080808">
 <title>Services — Slayed Hair &amp; Esthetics</title>
+<script src="content.js"></script>
 <script src="./support.js"></script>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="bundle.css">
@@ -404,7 +405,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 </section>
 </div>
 <!-- 05 · Footer -->
-<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="88 Mirror Lane, Halifax, NS B3H 0A0" directions-href="https://www.google.com/maps/search/?api=1&amp;query=Slayed+Hair+%26+Esthetics+Halifax+NS" email="workforyuliia@gmail.com" phone="(902) 555-0147" style="width: 100%; display: block; position: sticky; bottom: 0px; z-index: 0"></x-import>
+<x-import component-from-global-scope="SLAYED.Footer" logo="8b32c2e358fa7fb4cbdcd550c4e7762a.svg" explore="{{footExplore}}" services="{{footServices}}" address="{{ contact.address }}" directions-href="{{ contact.directionsUrl }}" email="{{ contact.email }}" phone="{{ contact.phone }}" style="width: 100%; display: block; position: sticky; bottom: 0px; z-index: 0"></x-import>
 </div>
 
 
@@ -422,7 +423,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 </div>
 <div class="mnav-meta">
 <a class="sl-btn sl-btn-dark sl-btn-md" href="#book" onClick="{{ closeMenu }}"><span class="sl-btn-fill" aria-hidden="true"></span><span class="sl-btn-label">Book a visit</span></a>
-<p>Tue–Sat 9:00 am – 7:00 pm</p>
+<p>{{ hoursSummary }}</p>
 </div>
 </nav>
 </div>
@@ -433,78 +434,32 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4280}}'>
 class Component extends DCLogic {
-  // ── Catalogue. Keys match the booking pop-up's price lists (a key shared by two specialists,
-  // like "gel", lets the visitor choose between them). Prices are sample prices (CAD).
+  // ── Catalogue: comes from content.js (window.SLAYED_CONTENT), generated from content/services.json
+  // and content/team.json. Edit those files, not this one. The booking pop-up reads the same data,
+  // so a service key shared by two specialists (like "gel") lets the visitor choose between them.
+  content() { return window.SLAYED_CONTENT; }
   catalogue() {
-    const P = {
-      kennedy: { name: 'Kennedy', photo: 'fb87bdefd7fa39f0ea3b4873188bd5b0.webp' },
-      amanda: { name: 'Amanda', photo: 'cb00832dd6c34a3a7441279036b6f8f7.webp' },
-      toni: { name: 'Toni', photo: '7751023ba75beef94cb03a973d896b6c.webp' },
-      tonya: { name: 'Tonya', photo: '8d6b853f1ad0906af0c60dc75c267898.webp' }
-    };
-    return [
-      { id: 'hair', name: 'Hair', title: 'Hair services', desc: 'Cuts, colour and finishing, from a fresh shape to a full transformation.', pros: [P.kennedy],
-        items: [
-          { key: 'cut', name: 'Haircut & style', min: 60, cost: 65, desc: 'A cut built around your face shape and texture, finished with a style.' },
-          { key: 'blow', name: 'Blowout', min: 45, cost: 45, desc: 'Wash, blow dry and style for smooth, bouncy hair that lasts.' },
-          { key: 'root', name: 'Root touch-up', min: 90, cost: 95, desc: 'Colour on new growth only, matched to your existing shade.' },
-          { key: 'full', name: 'Full colour', min: 120, cost: 130, desc: 'Root-to-tip colour for a rich, even, lasting result.' },
-          { key: 'bal', name: 'Balayage / highlights', min: 180, cost: 220, desc: 'Hand-painted or foiled lightness with soft, lived-in grow-out.' },
-          { key: 'corr', name: 'Colour correction', min: 30, desc: 'Start with a consultation; we plan the steps to the colour you want.', price: 'Free consult' },
-          { key: 'gloss', name: 'Gloss & treatment', min: 45, cost: 55, desc: 'Shine, tone and repair between colour appointments.' }
-        ] },
-      { id: 'nails', name: 'Nails', title: 'Nail services', desc: 'Gel, builder gel and hand-painted art that stays put.', pros: [P.toni, P.amanda],
-        items: [
-          { key: 'gel', name: 'Gel manicure', min: 60, cost: 50, desc: 'Shaping, cuticle care and a high-shine gel finish.' },
-          { key: 'ped', name: 'Gel pedicure', min: 75, cost: 65, desc: 'Soak, scrub, shaping and long-wear gel on toes.' },
-          { key: 'set', name: 'Builder gel full set', min: 120, cost: 85, desc: 'Strong, natural-looking length and shape with builder gel.' },
-          { key: 'nfill', name: 'Fill', min: 90, cost: 65, desc: 'Rebalance and refresh your set as it grows.' },
-          { key: 'art', name: 'Nail art, per set', min: 30, cost: 15, desc: 'Chrome, crystals, French or freehand designs.' },
-          { key: 'rem', name: 'Removal', min: 30, cost: 20, desc: 'Gentle removal that keeps your natural nails healthy.' }
-        ] },
-      { id: 'brows', name: 'Brows & lashes', title: 'Brows & lashes', desc: 'Shape, lift and volume that frame your face.', pros: [P.amanda],
-        items: [
-          { key: 'brow', name: 'Brow shape & tint', min: 30, cost: 35, desc: 'Mapped, shaped and tinted to suit your features.' },
-          { key: 'lam', name: 'Brow lamination', min: 45, cost: 65, desc: 'Brushed-up, fuller-looking brows that hold for weeks.' },
-          { key: 'lift', name: 'Lash lift & tint', min: 60, cost: 85, desc: 'Your own lashes, lifted and darkened. No extensions needed.' },
-          { key: 'ext', name: 'Lash extensions, full set', min: 120, cost: 160, desc: 'Classic to full volume, mapped to your eye shape.' },
-          { key: 'lfill', name: 'Lash fill', min: 60, cost: 70, desc: 'Top up your extensions every two to three weeks.' }
-        ] },
-      { id: 'skin', name: 'Skin & waxing', title: 'Skin & waxing', desc: 'Facials for glow and calm, plus quick, clean waxing.', pros: [P.amanda],
-        items: [
-          { key: 'fac', name: 'Signature facial', min: 60, cost: 110, desc: 'Deep cleanse, exfoliation, mask and massage, tailored to your skin.' },
-          { key: 'exp', name: 'Express facial', min: 30, cost: 65, desc: 'A quick refresh for brighter, smoother skin.' },
-          { key: 'uwax', name: 'Underarm wax', min: 15, cost: 20, desc: 'Smooth results that last for weeks.' },
-          { key: 'lwax', name: 'Full leg wax', min: 45, cost: 65, desc: 'Ankle to upper thigh, finished with a soothing balm.' }
-        ] },
-      { id: 'holistic', name: 'Holistic', title: 'Holistic care', desc: 'Acupuncture, cupping, gua sha and candling to reset body and mind.', pros: [P.tonya],
-        items: [
-          { key: 'acu1', name: 'Acupuncture, first visit', min: 90, cost: 110, desc: 'Consultation and treatment plan, then your first session.' },
-          { key: 'acu', name: 'Acupuncture, follow-up', min: 60, cost: 85, desc: 'Ongoing sessions to keep you on track.' },
-          { key: 'cup', name: 'Cupping', min: 45, cost: 60, desc: 'Releases tension and boosts circulation.' },
-          { key: 'gua', name: 'Gua sha facial', min: 45, cost: 75, desc: 'Sculpting facial massage that lifts and de-puffs.' },
-          { key: 'can', name: 'Ear candling', min: 30, cost: 40, desc: 'A calming, warming ritual for the ears and mind.' }
-        ] }
-    ];
+    if (this._cat) return this._cat;
+    const C = this.content();
+    const P = {};
+    C.team.forEach((t) => { P[t.id] = { name: t.name, photo: t.photo }; });
+    this._cat = C.categories.map((c) => ({
+      id: c.id, name: c.name, title: c.title, desc: c.description, pros: c.specialists.map((id) => P[id]),
+      items: c.services.map((s) => {
+        const nums = s.offeredBy.map((o) => o.price).filter((p) => typeof p === 'number');
+        // "with …": everyone who offers it, in team order
+        const pros = C.team.filter((t) => s.offeredBy.some((o) => o.specialist === t.id)).map((t) => t.name);
+        return { key: s.key, name: s.name, min: s.durationMinutes, desc: s.description, img: s.image, pros,
+          // the lowest price; a text price (like "Free") is shown as it is
+          price: s.priceLabel || (nums.length ? 'From $' + Math.min(...nums) : s.offeredBy[0].price) };
+      })
+    }));
+    return this._cat;
   }
-  // photos from the design-system assets for now, one per service
+  // one photo per service (services.json "image"); the default covers a service without one
   imageFor(key) {
-    const B = '';
-    const m = {
-      // hair + nails: generated photos, one per service (bright, colourful salon style)
-      cut: '60e0cb58e759ee12f03f2739fde3f2fa.webp', blow: '2ea77bda70123b3812350d6bc48277ec.webp', root: '1110504375d885a73ed9c60add605dcd.webp',
-      full: '1a277b9797d2cc743eebc1195a7aaf44.webp', bal: '21485b798a65283c181f550e67553c2a.webp', corr: '167586dbdd315dd38cbd3e5fa75c9285.webp', gloss: '08efb9ee0e1d325fe9e38c4d211661c4.webp',
-      gel: '0251750fd40df4f72485cbf8310d4c5d.webp', ped: 'eb1ca7a31a1f29861275cdd8abb0a843.webp', set: '40a1c10bfb0de829eb00d2a9b5b4dfef.webp', nfill: '9fa0fcd97238d1572b846ebfa248cb0e.webp', art: '53bf044c52634376e9fbff8e9e57df65.webp', rem: '8aedd06b9d68b67febee76a1fb572c54.webp',
-      brow: '1b367b4f89ad248012c96ec0c868fc0b.webp', lam: 'a6fb82bdba681a719b8bc45c9d1b5483.webp', lift: '515823e4d842ed002feecad00f68344c.webp', ext: '8abf5432a2c1aaca24a0bce708c2aefe.webp', lfill: '36e520e6b1f941d8d877c4afc18d63aa.webp',
-      fac: 'd82b01f3cbb70b00862e1d4194b3e7d3.jpg', exp: 'cba1787fb8483cd5c663d5d404929fe9.webp', bwax: '12dda040025c604b9fd392c76c6fdc5b.webp', uwax: '2e1ed251687f3b4bf7f562d61c97d448.webp', lwax: '233ed23da5cae5ec5c0e8f42f56be93a.webp',
-      acu1: '71837dc50c287d300299cabb0ccc2598.webp', acu: '71837dc50c287d300299cabb0ccc2598.webp', cup: 'ebf1b8956647c58b6191c40fedbe62ee.webp', gua: '7ee897a5177ef9eeaa55e725ffec44ac.webp', can: 'a4c0bab94748279a0b8f4a2667391d35.webp'
-    };
-    return B + (m[key] || '463a5de967399506958af45fd3004380.webp');
-  }
-  // which specialists do a service (mirrors the booking pop-up)
-  prosFor(key) {
-    const map = { gel: ['Amanda', 'Toni'] };
-    return map[key] || null;
+    const s = this.catalogue().flatMap((c) => c.items).find((i) => i.key === key);
+    return (s && s.img) || this.content().defaultImage;
   }
 
   componentDidMount() {
@@ -699,8 +654,9 @@ class Component extends DCLogic {
   renderVals() {
     const st = this.state || {};
     const footExplore = [{ label: 'Home', href: 'index.html' }, { label: 'Services', href: '#catalog' }, { label: 'Gallery', href: 'index.html#gallery' }, { label: 'Team', href: 'index.html#team' }, { label: 'Contact', href: 'index.html#contact' }];
-    const footServices = [['Hair', 'hair'], ['Nails', 'nails'], ['Brows & lashes', 'brows'], ['Skin & waxing', 'skin'], ['Holistic', 'holistic']].map(([label, id]) => ({ label, href: '#' + id }));
+    const C = this.content();
     const cats = this.catalogue();
+    const footServices = cats.map((c) => ({ label: c.name, href: '#' + c.id }));
     const activeId = st.cat || 'hair';
     const cat = cats.find((c) => c.id === activeId) || cats[0];
     const pad = (n) => String(n).padStart(2, '0');
@@ -709,9 +665,10 @@ class Component extends DCLogic {
       const el = document.getElementById('catalog');
       if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     };
-    const whoNames = ['Kennedy', 'Amanda', 'Toni', 'Tonya'];
+    const whoNames = C.team.map((t) => t.name);
     return {
       footExplore, footServices,
+      contact: C.contact, hoursSummary: C.hours.summary,
       whoName: whoNames[(st.whoIdx || 0) % whoNames.length],
       navLinks: ['Home', 'Services', 'Gallery', 'Our team', 'Contact'],
       total: pad(cats.reduce((n, c) => n + c.items.length, 0)),
@@ -725,13 +682,13 @@ class Component extends DCLogic {
         by: 'With ' + cat.pros.map((p) => p.name).join(' & ')
       },
       cards: cat.items.map((s, i) => {
-        const pros = this.prosFor(s.key) || cat.pros.map((p) => p.name).slice(0, 1);
+        const pros = s.pros;
         return {
           num: pad(i + 1), name: s.name, desc: s.desc, dur: this.fmtDur(s.min), img: this.imageFor(s.key),
           mediaCls: 'sv-media ' + (i % 2 ? 'sv-bottom' : 'sv-top'),   // bands alternate like the homepage cards
           cardCls: 'sv-card',
           with: pros.join(' or '),
-          price: s.price || ('From $' + s.cost),
+          price: s.price,
           aria: 'Select ' + s.name + ', ' + this.fmtDur(s.min) + ', with ' + pros.join(' or '),
           select: () => this.openBooking(s.key),
           enter: () => { if ((this.state || {}).hov !== i) this.setState({ hov: i }); }
