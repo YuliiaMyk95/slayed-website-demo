@@ -6,7 +6,7 @@
       "photo": "fb87bdefd7fa39f0ea3b4873188bd5b0.webp",
       "photoAlt": "Kennedy, hair stylist",
       "specialties": "Hair",
-      "estheticServices": false
+      "estheticServices": true
     },
     {
       "id": "amanda",
