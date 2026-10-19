@@ -431,7 +431,8 @@
           "priceLabel": "$60-$120",
           "offeredBy": [
             {
-              "specialist": "amanda"
+              "specialist": "amanda",
+              "price": 75
             }
           ]
         }
