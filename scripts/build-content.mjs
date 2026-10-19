@@ -187,7 +187,8 @@ if (svcIn && fields('services.json', svcIn, ['defaultImage', 'categories'])) {
         offeredBy.push({ specialist: o.specialist, price: p });
       });
       const nums = offeredBy.map((o) => o.price).filter((p) => typeof p === 'number');
-      if (!s.priceLabel && !nums.length && offeredBy.length) err(W, 'no specialist has a numeric price, so the services page needs a "priceLabel" (e.g. "Free consult")');
+      const words = [...new Set(offeredBy.map((o) => o.price).filter((p) => typeof p === 'string'))];
+      if (!s.priceLabel && !nums.length && words.length > 1) err(W, `specialists use different price wording (${words.join(' / ')}), so the services page needs a "priceLabel" to show instead`);
       if (nums.length > 1 && Math.min(...nums) !== Math.max(...nums)) warn(W, `prices differ by specialist (${offeredBy.map((o) => o.specialist + ' ' + o.price).join(', ')}); services page shows "From $${Math.min(...nums)}"`);
       services.push({ key, name: s.name, bookingName: s.bookingName || s.name, description: s.description, durationMinutes: s.durationMinutes,
         image: s.image, priceLabel: s.priceLabel || null, offeredBy });
