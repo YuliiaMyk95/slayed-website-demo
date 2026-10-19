@@ -6,7 +6,9 @@
       "name": "Hair",
       "title": "Hair services",
       "description": "Cuts, colour and finishing, from a fresh shape to a full transformation.",
-      "specialists": ["kennedy"],
+      "specialists": [
+        "kennedy"
+      ],
       "services": [
         {
           "key": "cut",
@@ -15,7 +17,10 @@
           "durationMinutes": 60,
           "image": "60e0cb58e759ee12f03f2739fde3f2fa.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": 65 }
+            {
+              "specialist": "kennedy",
+              "price": 65
+            }
           ]
         },
         {
@@ -25,7 +30,10 @@
           "durationMinutes": 45,
           "image": "2ea77bda70123b3812350d6bc48277ec.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": 45 }
+            {
+              "specialist": "kennedy",
+              "price": 45
+            }
           ]
         },
         {
@@ -35,7 +43,10 @@
           "durationMinutes": 90,
           "image": "1110504375d885a73ed9c60add605dcd.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": 95 }
+            {
+              "specialist": "kennedy",
+              "price": 95
+            }
           ]
         },
         {
@@ -45,7 +56,10 @@
           "durationMinutes": 120,
           "image": "1a277b9797d2cc743eebc1195a7aaf44.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": 130 }
+            {
+              "specialist": "kennedy",
+              "price": 130
+            }
           ]
         },
         {
@@ -55,7 +69,10 @@
           "durationMinutes": 180,
           "image": "21485b798a65283c181f550e67553c2a.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": 220 }
+            {
+              "specialist": "kennedy",
+              "price": 220
+            }
           ]
         },
         {
@@ -66,7 +83,10 @@
           "durationMinutes": 30,
           "image": "167586dbdd315dd38cbd3e5fa75c9285.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "priceText": "Free" }
+            {
+              "specialist": "kennedy",
+              "priceText": "Free"
+            }
           ]
         },
         {
@@ -76,7 +96,10 @@
           "durationMinutes": 45,
           "image": "08efb9ee0e1d325fe9e38c4d211661c4.webp",
           "offeredBy": [
-            { "specialist": "kennedy", "price": 55 }
+            {
+              "specialist": "kennedy",
+              "price": 55
+            }
           ]
         }
       ]
@@ -86,7 +109,10 @@
       "name": "Nails",
       "title": "Nail services",
       "description": "Gel, builder gel and hand-painted art that stays put.",
-      "specialists": ["toni", "amanda"],
+      "specialists": [
+        "toni",
+        "amanda"
+      ],
       "services": [
         {
           "key": "gel",
@@ -95,8 +121,14 @@
           "durationMinutes": 60,
           "image": "0251750fd40df4f72485cbf8310d4c5d.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 50 },
-            { "specialist": "toni", "price": 50 }
+            {
+              "specialist": "amanda",
+              "price": 50
+            },
+            {
+              "specialist": "toni",
+              "price": 50
+            }
           ]
         },
         {
@@ -106,7 +138,10 @@
           "durationMinutes": 75,
           "image": "eb1ca7a31a1f29861275cdd8abb0a843.webp",
           "offeredBy": [
-            { "specialist": "toni", "price": 65 }
+            {
+              "specialist": "toni",
+              "price": 65
+            }
           ]
         },
         {
@@ -116,7 +151,10 @@
           "durationMinutes": 120,
           "image": "40a1c10bfb0de829eb00d2a9b5b4dfef.webp",
           "offeredBy": [
-            { "specialist": "toni", "price": 85 }
+            {
+              "specialist": "toni",
+              "price": 85
+            }
           ]
         },
         {
@@ -126,7 +164,10 @@
           "durationMinutes": 90,
           "image": "9fa0fcd97238d1572b846ebfa248cb0e.webp",
           "offeredBy": [
-            { "specialist": "toni", "price": 65 }
+            {
+              "specialist": "toni",
+              "price": 65
+            }
           ]
         },
         {
@@ -136,7 +177,10 @@
           "durationMinutes": 30,
           "image": "53bf044c52634376e9fbff8e9e57df65.webp",
           "offeredBy": [
-            { "specialist": "toni", "price": 15 }
+            {
+              "specialist": "toni",
+              "price": 15
+            }
           ]
         },
         {
@@ -146,7 +190,10 @@
           "durationMinutes": 30,
           "image": "8aedd06b9d68b67febee76a1fb572c54.webp",
           "offeredBy": [
-            { "specialist": "toni", "price": 20 }
+            {
+              "specialist": "toni",
+              "price": 20
+            }
           ]
         }
       ]
@@ -156,7 +203,9 @@
       "name": "Brows & lashes",
       "title": "Brows & lashes",
       "description": "Shape, lift and volume that frame your face.",
-      "specialists": ["amanda"],
+      "specialists": [
+        "amanda"
+      ],
       "services": [
         {
           "key": "brow",
@@ -165,7 +214,10 @@
           "durationMinutes": 30,
           "image": "1b367b4f89ad248012c96ec0c868fc0b.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 35 }
+            {
+              "specialist": "amanda",
+              "price": 35
+            }
           ]
         },
         {
@@ -175,7 +227,10 @@
           "durationMinutes": 45,
           "image": "a6fb82bdba681a719b8bc45c9d1b5483.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 65 }
+            {
+              "specialist": "amanda",
+              "price": 65
+            }
           ]
         },
         {
@@ -185,7 +240,10 @@
           "durationMinutes": 60,
           "image": "515823e4d842ed002feecad00f68344c.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 85 }
+            {
+              "specialist": "amanda",
+              "price": 85
+            }
           ]
         },
         {
@@ -195,7 +253,10 @@
           "durationMinutes": 120,
           "image": "8abf5432a2c1aaca24a0bce708c2aefe.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 160 }
+            {
+              "specialist": "amanda",
+              "price": 160
+            }
           ]
         },
         {
@@ -205,7 +266,10 @@
           "durationMinutes": 60,
           "image": "36e520e6b1f941d8d877c4afc18d63aa.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 70 }
+            {
+              "specialist": "amanda",
+              "price": 70
+            }
           ]
         }
       ]
@@ -215,7 +279,9 @@
       "name": "Skin & waxing",
       "title": "Skin & waxing",
       "description": "Facials for glow and calm, plus quick, clean waxing.",
-      "specialists": ["amanda"],
+      "specialists": [
+        "amanda"
+      ],
       "services": [
         {
           "key": "fac",
@@ -224,7 +290,10 @@
           "durationMinutes": 60,
           "image": "d82b01f3cbb70b00862e1d4194b3e7d3.jpg",
           "offeredBy": [
-            { "specialist": "amanda", "price": 110 }
+            {
+              "specialist": "amanda",
+              "price": 110
+            }
           ]
         },
         {
@@ -234,7 +303,10 @@
           "durationMinutes": 30,
           "image": "cba1787fb8483cd5c663d5d404929fe9.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 65 }
+            {
+              "specialist": "amanda",
+              "price": 65
+            }
           ]
         },
         {
@@ -244,7 +316,10 @@
           "durationMinutes": 15,
           "image": "2e1ed251687f3b4bf7f562d61c97d448.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 20 }
+            {
+              "specialist": "amanda",
+              "price": 20
+            }
           ]
         },
         {
@@ -254,7 +329,10 @@
           "durationMinutes": 45,
           "image": "233ed23da5cae5ec5c0e8f42f56be93a.webp",
           "offeredBy": [
-            { "specialist": "amanda", "price": 65 }
+            {
+              "specialist": "amanda",
+              "price": 65
+            }
           ]
         }
       ]
@@ -264,7 +342,9 @@
       "name": "Holistic",
       "title": "Holistic care",
       "description": "Acupuncture, cupping, gua sha and candling to reset body and mind.",
-      "specialists": ["tonya"],
+      "specialists": [
+        "tonya"
+      ],
       "services": [
         {
           "key": "acu1",
@@ -273,7 +353,10 @@
           "durationMinutes": 90,
           "image": "71837dc50c287d300299cabb0ccc2598.webp",
           "offeredBy": [
-            { "specialist": "tonya", "price": 110 }
+            {
+              "specialist": "tonya",
+              "price": 110
+            }
           ]
         },
         {
@@ -283,7 +366,10 @@
           "durationMinutes": 60,
           "image": "71837dc50c287d300299cabb0ccc2598.webp",
           "offeredBy": [
-            { "specialist": "tonya", "price": 85 }
+            {
+              "specialist": "tonya",
+              "price": 85
+            }
           ]
         },
         {
@@ -293,7 +379,10 @@
           "durationMinutes": 45,
           "image": "ebf1b8956647c58b6191c40fedbe62ee.webp",
           "offeredBy": [
-            { "specialist": "tonya", "price": 60 }
+            {
+              "specialist": "tonya",
+              "price": 60
+            }
           ]
         },
         {
@@ -303,7 +392,10 @@
           "durationMinutes": 45,
           "image": "7ee897a5177ef9eeaa55e725ffec44ac.webp",
           "offeredBy": [
-            { "specialist": "tonya", "price": 75 }
+            {
+              "specialist": "tonya",
+              "price": 75
+            }
           ]
         },
         {
@@ -313,7 +405,34 @@
           "durationMinutes": 30,
           "image": "a4c0bab94748279a0b8f4a2667391d35.webp",
           "offeredBy": [
-            { "specialist": "tonya", "price": 40 }
+            {
+              "specialist": "tonya",
+              "price": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teeth",
+      "name": "Teeth Whitening and Jewels",
+      "title": "Teeth Whitening and Jewels",
+      "description": "Whitening, gemming",
+      "specialists": [
+        "tonya"
+      ],
+      "services": [
+        {
+          "key": "teeth",
+          "name": "1-5 Jewels",
+          "description": "Gemming",
+          "durationMinutes": 45,
+          "image": "4.png",
+          "priceLabel": "$60-$120",
+          "offeredBy": [
+            {
+              "specialist": "amanda"
+            }
           ]
         }
       ]
