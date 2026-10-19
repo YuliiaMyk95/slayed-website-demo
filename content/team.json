@@ -32,6 +32,14 @@
       "photoAlt": "Tonya, acupuncture and holistic treatments",
       "specialties": "Acupuncture, cupping, guasha, candling",
       "estheticServices": false
+    },
+    {
+      "id": "chandelle",
+      "name": "Chandelle",
+      "photo": "download-1.png",
+      "photoAlt": "Chandelle, teeth whitening and gemming",
+      "specialties": "Teeth whitening and gemming",
+      "estheticServices": false
     }
   ]
 }
